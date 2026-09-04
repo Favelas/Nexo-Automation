@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  CUSTOMER
+  AGENT
+}
+
+enum RequestStatus {
+  SUBMITTED
+  IN_PROGRESS
+  RESOLVED
+}
+
+model Role {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      RoleName @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  users     User[]
+
+  @@map("roles")
+}
+
+model User {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  roleId       String   @map("role_id") @db.Uuid
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  role               Role                   @relation(fields: [roleId], references: [id])
+  customerRequests   Request[]              @relation("CustomerRequests")
+  assignedRequests   Request[]              @relation("AssignedAgent")
+  statusChanges      RequestStatusHistory[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  requests  Request[]
+
+  @@map("categories")
+}
+
+model Request {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  publicId        String        @unique @map("public_id")
+  title           String
+  description     String        @db.Text
+  status          RequestStatus @default(SUBMITTED)
+  customerId      String        @map("customer_id") @db.Uuid
+  assignedAgentId String?       @map("assigned_agent_id") @db.Uuid
+  categoryId      String        @map("category_id") @db.Uuid
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  customer      User                   @relation("CustomerRequests", fields: [customerId], references: [id])
+  assignedAgent User?                  @relation("AssignedAgent", fields: [assignedAgentId], references: [id])
+  category      Category               @relation(fields: [categoryId], references: [id])
+  statusHistory RequestStatusHistory[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("requests")
+}
+
+model RequestStatusHistory {
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requestId  String         @map("request_id") @db.Uuid
+  fromStatus RequestStatus? @map("from_status")
+  toStatus   RequestStatus  @map("to_status")
+  actorId    String         @map("actor_id") @db.Uuid
+  changedAt  DateTime       @default(now()) @map("changed_at")
+
+  request Request @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  actor   User    @relation(fields: [actorId], references: [id])
+
+  @@index([requestId, changedAt])
+  @@map("request_status_history")
+}
