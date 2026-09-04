@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-nexo-navy: #1e3a5f;
+  --color-nexo-accent: #2b6cb0;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #f4f6f8;
+  color: #0f172a;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
