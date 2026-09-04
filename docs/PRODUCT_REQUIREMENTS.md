@@ -82,14 +82,14 @@ Agent queue, detail, status; customer can see the new status on their own reques
 
 Quality gate fully green. Then **stop building product** and start Playwright yourself.
 
-## Seed identities (target; not loaded in Iteration 1)
+## Seed identities
 
-Exact emails land in the seed script later. Plan:
+Canonical emails, password, seed requests, and isolation oracles: [README — Test data](../README.md#test-data-manual-kit).
 
-| Role       | Purpose                                                             |
-| ---------- | ------------------------------------------------------------------- |
-| Customer A | Owns `NX-000001` and creates new requests in tests                  |
-| Customer B | Isolation counterpart (do not mutate A’s seeded row from B’s tests) |
-| Agent      | Queue + status changes                                              |
+| Who        | Email                  | Role       | Owns                      |
+| ---------- | ---------------------- | ---------- | ------------------------- |
+| Customer A | `customer.a@nexo.test` | `CUSTOMER` | `NX-000001`, `NX-000002`  |
+| Customer B | `customer.b@nexo.test` | `CUSTOMER` | `NX-000003`               |
+| Agent      | `agent@nexo.test`      | `AGENT`    | (assigned on 002 and 003) |
 
-Passwords: one shared `TEST_USER_PASSWORD` in `.env.local`. Never commit the real secret.
+Shared password: `TEST_USER_PASSWORD` (`Password123!` in `.env.example`). Seed is not loaded in Iteration 1.
