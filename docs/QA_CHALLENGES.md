@@ -2,7 +2,7 @@
 
 Practice here. There is no `tests/` directory in this repository on purpose. Do not look for a hidden framework.
 
-Write tests against the **running app** and [API.md](./API.md). Accounts, seed ids, and expected oracles: [README — Test data](../README.md#test-data-manual-kit). If a challenge mentions a feature that is not built yet, wait for that iteration.
+Write tests against the **running app** and [API.md](./API.md). Accounts, seed ids, and expected oracles: [README — Test data](../README.md#test-data-manual-kit). How to design the suite: [automation/README.md](./automation/README.md). If a challenge mentions a feature that is not built yet, wait for that iteration.
 
 ## Rules
 

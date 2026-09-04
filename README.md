@@ -1,8 +1,30 @@
 # Nexo
 
-Internal customer-request tracker used as a **QA automation lab**. One Next.js app, one PostgreSQL database, REST under `/api/*` (from Iteration 5). This repo does not ship a Playwright suite — you add tests. A **login-form smoke** can start now; login success, RBAC, and API tests wait until those features exist.
+Nexo is a small **internal customer-request tracker** used as a QA lab. Customers file requests (`NX-000001` style ids). Agents move them through `SUBMITTED` → `IN_PROGRESS` → `RESOLVED`. You learn Playwright against a real Next.js UI **and** (later) the same rules on REST `/api/*`.
 
-Planning docs live in [`docs/`](./docs/). Start with [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
+It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built test framework. You add Playwright yourself.
+
+|                |                                                                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| App            | Next.js 16 App Router, TypeScript, one PostgreSQL (Docker), Prisma 6                                                                |
+| Auth (planned) | Auth.js Credentials, HTTP-only cookie, roles `CUSTOMER` and `AGENT`                                                                 |
+| Current stop   | **Iteration 1** — app boots, page map + locators exist, **login does not authenticate**, no seed, no API                            |
+| Git            | Work on **`main`**. **`nexo-dev`** is a backup snapshot of `main`                                                                   |
+| Automation     | Design in [`docs/automation/`](./docs/automation/README.md). Specs will live **in this repo** under `e2e/` (you create that folder) |
+
+### Start here
+
+| If you want to…                            | Go to                                                                                                                                |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Run the app                                | [Boot](#boot-iteration-1) below                                                                                                      |
+| Understand the product                     | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md), [`docs/PRODUCT_REQUIREMENTS.md`](./docs/PRODUCT_REQUIREMENTS.md)                   |
+| Manual accounts, seed ids, isolation rules | [Test data](#test-data-manual-kit)                                                                                                   |
+| Locator `data-testid` list                 | [Locator IDs](#locator-ids)                                                                                                          |
+| **Design and start Playwright yourself**   | **[`docs/automation/README.md`](./docs/automation/README.md)** then [`docs/automation/FRAMEWORK.md`](./docs/automation/FRAMEWORK.md) |
+| Practice exercises (no spoilers)           | [`docs/QA_CHALLENGES.md`](./docs/QA_CHALLENGES.md)                                                                                   |
+| Keep GitHub and your PC in sync            | [Cursor + Git](#cursor--git-fastest-loop)                                                                                            |
+
+Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
 ## Current stop: Iteration 1
 
@@ -295,18 +317,20 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 - Auth.js / sessions (Iteration 2)
 - Create request / agent status (Iterations 3–4)
 - Seed + REST API (Iteration 5)
-- Playwright project/config (you add this; locators are ready)
+- Playwright project/config (you add this under `e2e/`; see [`docs/automation/`](./docs/automation/README.md))
 
 ## Docs
 
-| File                                                                     | Contents                            |
-| ------------------------------------------------------------------------ | ----------------------------------- |
-| [docs/DECISIONS.md](./docs/DECISIONS.md)                                 | Architecture choices                |
-| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)                           | Shape, page map, oracles            |
-| [docs/PRODUCT_REQUIREMENTS.md](./docs/PRODUCT_REQUIREMENTS.md)           | MVP + quality gates                 |
-| [docs/DATABASE.md](./docs/DATABASE.md)                                   | Schema                              |
-| [docs/API.md](./docs/API.md)                                             | REST contract (not implemented yet) |
-| [docs/DEVELOPMENT_ROADMAP.md](./docs/DEVELOPMENT_ROADMAP.md)             | Build iterations                    |
-| [docs/AUTOMATION_LEARNING_GUIDE.md](./docs/AUTOMATION_LEARNING_GUIDE.md) | Curriculum                          |
-| [docs/AUTOMATION_ROADMAP.md](./docs/AUTOMATION_ROADMAP.md)               | Automation levels                   |
-| [docs/QA_CHALLENGES.md](./docs/QA_CHALLENGES.md)                         | Practice without spoilers           |
+| File                                                                     | Contents                                                           |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| [docs/DECISIONS.md](./docs/DECISIONS.md)                                 | Architecture choices                                               |
+| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)                           | Shape, page map, oracles                                           |
+| [docs/PRODUCT_REQUIREMENTS.md](./docs/PRODUCT_REQUIREMENTS.md)           | MVP + quality gates                                                |
+| [docs/DATABASE.md](./docs/DATABASE.md)                                   | Schema                                                             |
+| [docs/API.md](./docs/API.md)                                             | REST contract (not implemented yet)                                |
+| [docs/DEVELOPMENT_ROADMAP.md](./docs/DEVELOPMENT_ROADMAP.md)             | Build iterations                                                   |
+| [docs/automation/README.md](./docs/automation/README.md)                 | **Start here for Playwright** — where tests live, first 90 minutes |
+| [docs/automation/FRAMEWORK.md](./docs/automation/FRAMEWORK.md)           | Framework architecture, global config, POM, data, CI               |
+| [docs/AUTOMATION_LEARNING_GUIDE.md](./docs/AUTOMATION_LEARNING_GUIDE.md) | Curriculum (concept → practice)                                    |
+| [docs/AUTOMATION_ROADMAP.md](./docs/AUTOMATION_ROADMAP.md)               | Automation levels and definition of done                           |
+| [docs/QA_CHALLENGES.md](./docs/QA_CHALLENGES.md)                         | Practice without spoilers                                          |

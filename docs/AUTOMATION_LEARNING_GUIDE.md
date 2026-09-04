@@ -2,7 +2,7 @@
 
 Curriculum for Nexo. Each level: concept → why it matters → when to use it → how it shows up in Nexo → practice → expected result.
 
-Work in order. Do not start a Playwright config until Iteration 5’s quality gate is green. Start with **one valid login test**, not a framework.
+Work in order. You **may** add Playwright now for an Iteration 1 **login-form smoke** (page renders, no real session). Do **not** write a “valid login lands on dashboard” spec until Iteration 2 works manually. A serious suite (RBAC, API, journeys) waits until Iteration 5’s quality gate is green. Architecture, folder layout, and global config: [automation/README.md](./automation/README.md). Start with **one** spec, not a framework.
 
 ## Pyramid
 

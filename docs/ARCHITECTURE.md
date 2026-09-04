@@ -80,7 +80,7 @@ Do not add a package monorepo, message queue, or Redis for MVP.
 ## Testability constraints (apply as features land)
 
 - Semantic HTML and accessible names first (`getByRole`, `getByLabel`).
-- `data-testid` only when a control has no stable accessible name (status badge, row identity).
+- `data-testid` (also set as `id`) on key controls — list in the root README; constants in `lib/test-ids.ts`.
 - Predictable URLs.
 - Generic login error copy (no “email not found” vs “wrong password”).
 - Field-level validation messages; `role="alert"` for submit failures.
