@@ -1,26 +1,60 @@
 # Nexo
 
-Internal customer-request tracker used as a **QA automation lab**. One Next.js app, one PostgreSQL database, REST under `/api/*` (from Iteration 5). Playwright is **your** work after Iteration 5 — this repo does not ship a test framework.
+Internal customer-request tracker used as a **QA automation lab**. One Next.js app, one PostgreSQL database, REST under `/api/*` (from Iteration 5). This repo does not ship a Playwright suite — you add tests. A **login-form smoke** can start now; login success, RBAC, and API tests wait until those features exist.
 
 Planning docs live in [`docs/`](./docs/). Start with [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
 ## Current stop: Iteration 1
 
-The app boots. `/login` renders. Routes in the page map exist as placeholders. **Login does not authenticate.** There is no seed data and no Playwright.
+The app boots. `/login` renders with stable `id` / `data-testid` locators. Routes in the page map exist as placeholders. **Login does not authenticate.** There is no seed data and no Playwright suite.
 
 ## Clone onto your machine
 
-This project lives on GitHub (`Favelas/Nexo-Automation`). A cloud agent cannot write to `C:\Users\maryf\Documents` for you. After you have the branch or `main`:
+GitHub is the source of truth (`Favelas/Nexo-Automation`). Open the **cloned folder** in Cursor. A cloud agent cannot write to `C:\Users\maryf\Documents` for you.
 
 ```powershell
 git clone https://github.com/Favelas/Nexo-Automation.git C:\Users\maryf\Documents\Nexo-Automation
 cd C:\Users\maryf\Documents\Nexo-Automation
+git checkout main
+git pull origin main
 ```
 
-If you are reviewing a pull request branch:
+Work happens on **`main`**. **`nexo-dev`** is a backup snapshot of `main` (Git cannot use the name `Nexo Dev` with a space).
+
+## Cursor + Git (fastest loop)
+
+Use **one local folder that is the Git clone**. Do not keep a second copy without Git.
+
+Every session:
 
 ```powershell
-git clone -b cursor/iteration-1-scaffold-2ada https://github.com/Favelas/Nexo-Automation.git C:\Users\maryf\Documents\Nexo-Automation
+cd C:\Users\maryf\Documents\Nexo-Automation
+git checkout main
+git pull origin main
+```
+
+After you (or an agent) change files:
+
+```powershell
+git add -A
+git commit -m "Describe the change"
+git push origin main
+```
+
+Refresh the backup branch when you want a snapshot:
+
+```powershell
+git push origin main:nexo-dev
+```
+
+In Cursor Desktop: **File → Open Folder** → `C:\Users\maryf\Documents\Nexo-Automation`. After a cloud agent pushes, run `git pull origin main` in that folder (or Source Control → Pull). That is the whole sync.
+
+If the local folder was cloned earlier from another branch:
+
+```powershell
+git fetch origin
+git checkout main
+git pull origin main
 ```
 
 ## Boot (Iteration 1)
@@ -130,10 +164,10 @@ Do **not** have every test PATCH `NX-000001`. Seed is for identity and reads. Fo
 
 History (append-only):
 
-| Public id   | History                                                          |
-| ----------- | ---------------------------------------------------------------- |
-| `NX-000001` | `null → SUBMITTED` (Ana)                                         |
-| `NX-000002` | `null → SUBMITTED` (Ana), then `SUBMITTED → IN_PROGRESS` (Avery) |
+| Public id   | History                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------- |
+| `NX-000001` | `null → SUBMITTED` (Ana)                                                                      |
+| `NX-000002` | `null → SUBMITTED` (Ana), then `SUBMITTED → IN_PROGRESS` (Avery)                              |
 | `NX-000003` | `null → SUBMITTED` (Ben), `SUBMITTED → IN_PROGRESS` (Avery), `IN_PROGRESS → RESOLVED` (Avery) |
 
 Statuses allowed on agent detail: `SUBMITTED` \| `IN_PROGRESS` \| `RESOLVED` only.
@@ -208,6 +242,50 @@ Error envelope:
 8. [ ] Agent sets that new request `IN_PROGRESS` then `RESOLVED`; A sees `RESOLVED`
 9. [ ] `npm run db:reset` restores only the three seed requests and the three users
 
+## Locator IDs
+
+Every control below has the **same** value on `id` and `data-testid`. Prefer `page.getByTestId("login-email")` (or `getByRole` / `getByLabel` when that is enough). Constants live in `lib/test-ids.ts`.
+
+```ts
+await page.getByTestId("login-email").fill("customer.a@nexo.test");
+await page.getByTestId("login-submit").click();
+```
+
+| `data-testid` / `id`                                   | Where                                                                 |
+| ------------------------------------------------------ | --------------------------------------------------------------------- |
+| `page-login`                                           | Login page wrapper                                                    |
+| `login-form`                                           | Login `<form>`                                                        |
+| `login-email`                                          | Email input                                                           |
+| `login-password`                                       | Password input                                                        |
+| `login-submit`                                         | **Log in** button                                                     |
+| `login-status`                                         | Message after submit (Iteration 1 placeholder)                        |
+| `iteration-banner`                                     | Yellow iteration notice                                               |
+| `page-heading`                                         | Main `<h1>` on each page                                              |
+| `app-header` / `app-main` / `app-footer`               | Chrome                                                                |
+| `nav-brand`                                            | Nexo logo link                                                        |
+| `nav-primary`                                          | Role nav                                                              |
+| `nav-dashboard`                                        | Dashboard link                                                        |
+| `nav-my-requests`                                      | Customer **My requests**                                              |
+| `nav-new-request`                                      | Customer header **New request**                                       |
+| `nav-request-queue`                                    | Agent **Request queue**                                               |
+| `nav-logout`                                           | **Log out**                                                           |
+| `cta-new-request`                                      | In-page New request button/link                                       |
+| `cta-request-queue`                                    | In-page Request queue link                                            |
+| `page-customer-dashboard`                              | Customer dashboard                                                    |
+| `page-customer-requests`                               | My requests                                                           |
+| `page-customer-request-new`                            | New request                                                           |
+| `page-customer-request-detail`                         | Customer detail                                                       |
+| `page-agent-dashboard`                                 | Agent dashboard                                                       |
+| `page-agent-requests`                                  | Agent queue                                                           |
+| `page-agent-request-detail`                            | Agent detail                                                          |
+| `request-table`                                        | Requests table                                                        |
+| `request-table-empty`                                  | Empty-table message                                                   |
+| `request-public-id`                                    | Public id on detail (`NX-000001`)                                     |
+| `request-status`                                       | Status text (customer) or status `<select>` (agent, disabled for now) |
+| `create-request-form`                                  | Create form                                                           |
+| `field-title` / `field-category` / `field-description` | Create fields                                                         |
+| `create-request-submit`                                | **Create request**                                                    |
+
 ## SQLite fallback
 
 Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see [`docs/DATABASE.md`](./docs/DATABASE.md#sqlite-fallback). Ask before switching; it changes migrations.
@@ -217,7 +295,7 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 - Auth.js / sessions (Iteration 2)
 - Create request / agent status (Iterations 3–4)
 - Seed + REST API (Iteration 5)
-- `tests/` and Playwright (you, after Iteration 5)
+- Playwright project/config (you add this; locators are ready)
 
 ## Docs
 

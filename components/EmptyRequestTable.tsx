@@ -1,7 +1,9 @@
+import { loc, testId } from "@/lib/test-ids";
+
 export function EmptyRequestTable({ caption }: { caption: string }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-      <table className="w-full text-left text-sm">
+      <table {...loc(testId.requestTable)} className="w-full text-left text-sm">
         <caption className="sr-only">{caption}</caption>
         <thead className="bg-slate-50 text-slate-700">
           <tr>
@@ -21,7 +23,11 @@ export function EmptyRequestTable({ caption }: { caption: string }) {
         </thead>
         <tbody>
           <tr>
-            <td colSpan={4} className="px-4 py-6 text-slate-600">
+            <td
+              {...loc(testId.requestTableEmpty)}
+              colSpan={4}
+              className="px-4 py-6 text-slate-600"
+            >
               No requests yet. Seed data arrives in Iteration 5.
             </td>
           </tr>
