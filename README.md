@@ -81,19 +81,106 @@ git pull origin main
 
 ## Boot (Iteration 1)
 
-Needs: Node.js 20+, npm, Docker Desktop (Postgres).
+Needs: Node.js 20+, npm, Docker Desktop (Postgres). **Installed is not enough** — Docker Desktop must be **running** (whale icon ready) before any `docker` command. If the engine is off, `docker compose` fails with `error during connect` / `dockerDesktopLinuxEngine`.
 
-```bash
-cp .env.example .env.local
+Iteration 1 pages render without a working database. **Login does not authenticate.** Start Postgres anyway so later iterations do not surprise you.
+
+Copy `.env.example` as-is for local lab work. `TEST_USER_PASSWORD` is the shared seed password below (`Password123!`). `AUTH_SECRET` is unused until Iteration 2; you can leave the example or set it with `openssl rand -base64 32`.
+
+### Check the tools
+
+```powershell
+cd C:\Users\maryf\Documents\Nexo-Automation
+node -v          # expect v20 or higher
+npm -v
+docker info      # must print Server Version — if this errors, open Docker Desktop and wait
+```
+
+### First time on this machine
+
+```powershell
+cd C:\Users\maryf\Documents\Nexo-Automation
+
+# 1. Env file (gitignored). Only needed once, or if you deleted it.
+Copy-Item .env.example .env.local
+
+# 2. Postgres on localhost:5432 (needs Docker Desktop running)
 docker compose up -d
+
+# 3. App dependencies (skip later if node_modules already exists)
 npm install
+
+# 4. Apply migrations (needs Postgres accepting connections)
 npx prisma migrate deploy
+
+# 5. Dev server — leave this terminal open
 npm run dev
 ```
 
-Open [http://localhost:3000/login](http://localhost:3000/login). `/` redirects there.
+Wait until the terminal prints `Local: http://localhost:3000` (or `3001` if 3000 is taken) and `✓ Ready`. Then open [http://localhost:3000/login](http://localhost:3000/login). `/` redirects there.
 
-Copy `.env.example` as-is for local lab work. `TEST_USER_PASSWORD` is the shared seed password below (`Password123!`). `AUTH_SECRET` is unused until Iteration 2; you can leave the example or set it with `openssl rand -base64 32`.
+If Next.js prints **Port 3000 is in use … using available port 3001**, that is the same app — use [http://localhost:3001/login](http://localhost:3001/login). Do not assume `:3000` is Nexo; another container can own that port and look “down”.
+
+### Every later session
+
+```powershell
+cd C:\Users\maryf\Documents\Nexo-Automation
+# Docker Desktop must already be running
+docker compose up -d
+npm run dev
+```
+
+Re-run `Copy-Item .env.example .env.local` only if `.env.local` is missing. Re-run `npm install` only if `node_modules` is missing or `package.json` changed.
+
+### What each command does
+
+| Command | What it does |
+| ------- | ------------ |
+| `Copy-Item .env.example .env.local` | Creates the local env file. Prisma and Next read `DATABASE_URL=postgresql://nexo:nexo@localhost:5432/nexo?schema=public` |
+| `docker compose up -d` | Starts Postgres 16 (`nexo` / `nexo` / db `nexo`) in the background on port **5432** |
+| `npm install` | Installs Next.js, Prisma, and the rest into `node_modules` |
+| `npx prisma migrate deploy` | Creates tables in that database |
+| `npm run dev` | Next.js 16 dev server. Default URL **http://localhost:3000**. Stops when you close the terminal or press `Ctrl+C` |
+
+### How you know it is up
+
+| Check | Expect |
+| ----- | ------ |
+| `npm run dev` terminal | `✓ Ready` and a `Local:` line |
+| Browser | [http://localhost:3000/login](http://localhost:3000/login) (or the `Local:` port) shows email, password, and **Log in** |
+| `docker compose ps` | Service `postgres` is **Up** (healthy) |
+| `http://localhost:3000` while Next printed `:3001` | That URL is **not** this app |
+
+```powershell
+docker compose ps
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+```
+
+Nexo wants **3000** (Next.js) and **5432** (Postgres). If another stack holds them, stop it or use the port Next.js chose.
+
+### Stop
+
+```powershell
+# App: in the npm run dev terminal
+# Ctrl+C
+
+# Postgres only (volume nexo_pgdata stays; data is kept)
+docker compose down
+```
+
+### If it looks down
+
+| Symptom | Cause | Fix |
+| ------- | ----- | --- |
+| Browser timeout / connection reset on `:3000` | `npm run dev` is not running, **or** another process owns 3000 and is crashing | Start `npm run dev`. Read the `Local:` line. Run `docker ps` and stop the other container if you need `:3000` |
+| Next.js: `Port 3000 is in use … using available port 3001` | Something else bound 3000 | Open `:3001`, or free 3000 (`docker stop <name>` or stop the other Node process) and restart `npm run dev` |
+| `error during connect` / `open //./pipe/dockerDesktopLinuxEngine` | Docker Desktop installed but the engine is off | Open **Docker Desktop**, wait until it is running, then `docker compose up -d` |
+| `Bind for 0.0.0.0:5432 failed: port is already allocated` | Another Postgres already uses 5432 | `docker ps` then `docker stop <name>`. Retry `docker compose up -d` |
+| `P1000: Authentication failed` against `nexo` | Whatever is on 5432 is **not** the Nexo database | Same as the 5432 conflict. Credentials in `.env.local` are `nexo` / `nexo` |
+| `next` is not recognized / cannot find module | `node_modules` missing | `npm install` |
+| Prisma cannot find env / wrong database | `.env.local` missing | `Copy-Item .env.example .env.local` |
+
+Iteration 1 UI still renders if Postgres is down. You only need a healthy `docker compose up -d` before migrate, seed, or (later) real login.
 
 ### npm scripts
 
