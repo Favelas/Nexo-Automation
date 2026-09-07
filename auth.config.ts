@@ -36,7 +36,7 @@ export const authConfig = {
       const isAgent = path.startsWith("/agent");
 
       if ((isCustomer || isAgent) && !auth?.user) {
-        return false;
+        return NextResponse.redirect(new URL("/login", request.nextUrl));
       }
 
       if (isAgent && role === "CUSTOMER") {
