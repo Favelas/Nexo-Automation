@@ -12,12 +12,12 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 
 | Track | Stop | Next |
 | ----- | ---- | ---- |
-| Product | **Iteration 2 done** — Auth.js, seed users, `proxy.ts`, dashboards | Iteration 3 — customer create / list / detail |
-| Automation | **Level 0** — form visible smoke | **Level 1–3** — `e2e/auth/` (valid A/agent, invalid alert, logout, redirects). POM only if a second spec copies locators |
+| Product | **Iteration 2 done** — Auth.js, seed users, `proxy.ts`, dashboards | **Tomorrow:** I3 create → My requests → detail `NX-######` |
+| Automation | **Levels 0–4** — smoke + `e2e/auth/` + `LoginPage` | Pause. Specs after I3 works by hand |
 
 ```
 Product:     [I1 done] → [I2 done] → I3 Customer → I4 Agent → I5 API/seed → STOP product
-Automation:  [L0 smoke done] → L1–3 auth specs → POM only if a second spec copies locators
+Automation:  [L0–4 done] → (pause) → I3 specs + next POM / later fixtures
 ```
 
 ## Status
@@ -27,7 +27,7 @@ Tick when true. Do not tick a suite row before the matching product gate is manu
 | ID | Product | Manual gate | Suite (only after gate) | Product | Suite |
 | -- | ------- | ----------- | ----------------------- | ------- | ----- |
 | I1 | Skeleton, Postgres, Prisma, placeholder pages, login form **does not authenticate** | App boots; `/login` labeled; page map renders | `e2e/smoke/login-form.spec.ts` — form visible | [x] | [x] |
-| I2 | Auth.js Credentials, 3 seed users, middleware, real dashboards | Auth checklist below | Valid A + agent login; invalid + `role="alert"`; logout; anonymous → `/login`; wrong-role redirect | [x] | [ ] |
+| I2 | Auth.js Credentials, 3 seed users, middleware, real dashboards | Auth checklist below | Valid A + agent login; invalid + `role="alert"`; logout; anonymous → `/login`; wrong-role redirect | [x] | [x] |
 | I3 | Customer create / list / detail | Create → My requests → detail `NX-######` | Create validation; happy create; A does not see B’s id in the table | [ ] | [ ] |
 | I4 | Agent queue / detail / status | Queue has two customers; 3 statuses; A sees the new status | Agent sees both customers; status change visible to A | [ ] | [ ] |
 | I5 | Seed, `db:reset`, API matches UI | Full quality gate in `PRODUCT_REQUIREMENTS.md` | API isolation/RBAC; `storageState`; one journey; then CI | [ ] | [ ] |
@@ -38,11 +38,11 @@ Out of MVP (never in these five): admin, register, forgot password, comments, up
 
 | Level | Name | Definition of done | Status |
 | ----- | ---- | ------------------ | ------ |
-| 0 | Smoke (Iteration 1) | You added config. One spec: form visible; submit does not authenticate | [x] |
-| 1 | Basic Playwright | After auth exists: one spec, valid customer login | [ ] |
-| 2 | Selectors | Login and nav use role/label. No CSS-class selectors | [ ] |
-| 3 | Assertions | Login spec asserts URL + heading. Zero `waitForTimeout` | [ ] |
-| 4 | POM | Login locators extracted **only after** a second spec needed them | [ ] |
+| 0 | Smoke (Iteration 1) | You added config. One spec: form visible | [x] |
+| 1 | Basic Playwright | After auth exists: one spec, valid customer login | [x] |
+| 2 | Selectors | Login and nav use role/label. No CSS-class selectors | [x] |
+| 3 | Assertions | Login spec asserts URL + heading. Zero `waitForTimeout` | [x] |
+| 4 | POM | Login locators extracted after auth tests copied them | [x] |
 | 5 | Fixtures | `customerPage` / `agentPage`; specs no longer paste login | [ ] |
 | 6 | Auth strategies | `storageState` for both roles. One UI spec still covers the form | [ ] |
 | 7 | API | Isolation and status via `/api/*` | [ ] |

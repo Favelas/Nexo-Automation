@@ -8,7 +8,9 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** Steps 1–8 done. Product **Iteration 2 is closed.** Next on the suite side: Step 9 / Levels 1–3 (`e2e/auth/`). Next on the product side: Iteration 3 (create request). See [ITERATIONS.md — Current stop](./ITERATIONS.md#current-stop).
+**Current stop:** Steps 1–10 done. Suite slice is closed. Tomorrow is **product Iteration 3** (create → list → detail), not more login tests. See [Tomorrow](#tomorrow) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+
+Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
 ---
 
@@ -18,7 +20,7 @@ Create the folder where automation will live.
 
 - [x] `e2e/` on `main` in this repo (not a second repo, not only `nexo-dev`)
 - [x] Day-one shape: `e2e/smoke/` for the first spec
-- [ ] Leave `e2e/pages/` and `e2e/fixtures/` **empty** until a second spec copies locators (Level 4) and login is real (Level 5)
+- [x] `e2e/pages/` filled in Step 10 (POM). `e2e/fixtures/` still empty — no custom fixture yet
 
 Prefer the handbook name `fixtures/` (plural). A leftover `e2e/fixture/` can be deleted when you touch Git.
 
@@ -62,11 +64,7 @@ Not next to the example. Not a POM.
 - [x] Import `test` / `expect` from `@playwright/test`; use built-in `{ page }`
 - [x] `goto('/login')` (relative)
 - [x] Heading **Log in**, Email, Password, button — role/label first
-- [x] Fill + submit; URL still `/login`
-- [x] Post-submit message via `getByTestId('login-status')` — `getByRole('status')` matches **two** nodes (`iteration-banner` + `login-status`) and fails strict mode
-- [x] No dashboard assert. Name matches the oracle (stays on login), not “logged in”
-
-Why this spec: Iteration 1 **guarantees** the form and that submit does not authenticate. A dashboard assert would be red today and **wrong** when Iteration 2 ships.
+- [x] After auth exists: smoke only checks the form is visible (do not assert “valid user stays on `/login`”)
 
 ## Step 5 — Run the spec
 
@@ -84,7 +82,7 @@ Then the same without `--headed`.
 `testDir: './e2e'` runs every `*.spec.ts` under `e2e/`.
 
 - [x] `e2e/example.spec.ts` gone
-- [ ] Confirm anytime with `npx playwright test` (no path) → **1** test (the smoke). If you see 3, the demo is back
+- [x] `npx playwright test` (no path) now runs smoke **plus** `e2e/auth/` (about 10 tests). If you still see playwright.dev, the demo is back
 
 ## Step 7 — Gitignore
 
@@ -112,24 +110,54 @@ Add Playwright and an Iteration 1 smoke that login submit stays on /login.
 
 Push when you want (`git push origin main`). Backup snapshot: `git push origin main:nexo-dev`.
 
-## Step 9 — Auth specs (Iteration 2 suite)
+## Step 9 — Auth specs
 
-Auth gate is ticked. Product I2 is closed. The I1 smoke already only asserts the form (it does not claim “valid user stays on `/login`”).
+Product already logs in by hand. One `test()` per rule in `e2e/auth/login.spec.ts`. Still `{ page }`. No POM yet.
 
-- [ ] `e2e/auth/login.spec.ts` — valid customer A → `/customer/dashboard` + heading
-- [ ] Same file or a sibling: valid agent → `/agent/dashboard`
-- [ ] Invalid login stays on `/login` with `role="alert"` and **Invalid email or password.**
-- [ ] Logout → `/login`; then `/customer/dashboard` returns to `/login`
-- [ ] Customer opening `/agent/dashboard` lands on `/customer/dashboard`
-- [ ] No POM until those locators appear in a **second** file
-- [ ] No custom fixture / `storageState` yet
+| Prove | How you know |
+| ----- | ------------ |
+| Valid customer / agent | Their dashboard URL + **heading** (not the “Signed in as” line) |
+| Bad email / bad password | Stay on `/login`, **same** copy: Invalid email or password. |
+| Logout | Back to `/login`, then a protected URL still `/login` |
+| Wrong role | Customer cannot stay on `/agent/*` (and the reverse) |
+| Anonymous | Never logged in; dashboards send you to login |
 
-## Step 10 — Product Iteration 3 (separate sitting)
+Name the rule (not “submitable”). `toHaveURL('/login')` is exact — a `?callbackUrl=` is not the same string. If `getByRole('alert')` matches two nodes, Next added one; use `login-status` + the copy.
 
-Customer create / list / detail. Do not start this in the same breath as Step 9 if you will confuse “auth oracles” with “request oracles”.
+```powershell
+npx playwright test e2e/auth/login.spec.ts
+```
+
+- [x] Nine auth tests green; smoke still only “form visible”
+
+## Step 10 — POM
+
+You pasted login in every test. Move locators + `goto` + one `login(email, password)` into a class. **Asserts stay in the spec.**
+
+| Who | Role |
+| --- | ---- |
+| `{ page }` | Playwright gives you a new tab each test. You do not import it. |
+| `LoginPage` | You `export` the class so the spec can `import` it. |
+| `new LoginPage(page)` | Hands that tab to the POM. Do this **per test**. |
+| `page.object.ts` | Optional tiny base: only stores `page`. Not required. Keep it small. |
+
+File: `login.page.ts` (class `LoginPage`). No fixture yet — fixture is “give me a page already built/logged in”. Logout stays in the spec (header, not the form).
+
+- [x] POM wired; auth tests still green
+
+## Tomorrow
+
+Product I3 only. Manual first; specs after it works by hand.
+
+- [ ] Create request (category, title, description)
+- [ ] New row in **My requests** with `NX-######`
+- [ ] Open that detail
+- [ ] Do not write I3 specs, fixtures, or more login
+
+## Step 11 — Pause
+
+Suite slice is closed until I3 works in the browser.
 
 ---
 
-## How the config connects to a spec (reminder)
-
-There is no `import` of `playwright.config.ts` in the spec. The CLI loads the config from the repo root, discovers `e2e/**/*.spec.ts`, builds `{ page }` from `use`, and runs each `test(...)`. Relative `goto('/login')` uses `baseURL`. Timeouts and `testIdAttribute` apply without being named in the spec.
+Config is not imported. The CLI reads it, finds `e2e/**/*.spec.ts`, and injects `{ page }`. The POM uses that same tab; it does not start the browser.
