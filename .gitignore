@@ -46,3 +46,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright
+node_modules/
+/playwright/.cache/
+/playwright/.auth/
+/e2e/.auth/
