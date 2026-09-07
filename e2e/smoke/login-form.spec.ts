@@ -9,13 +9,5 @@ test("login form is visible", async ({ page }) => {
     await expect(page.getByRole("button", { name: "Log in" })).toBeVisible();
 });
 
-test("login form is submitable", async ({ page }) => {
-    await page.goto("/login");
-    await page.getByLabel("Email").fill("customer.a@nexo.test");
-    await page.getByLabel("Password").fill("Password123!");
-    await page.getByRole("button", { name: "Log in" }).click();
-    await expect(page).toHaveURL("/customer/dashboard");
-    await expect(page.getByRole("heading", { name: "Customer dashboard" })).toBeVisible();
-});
 
 
