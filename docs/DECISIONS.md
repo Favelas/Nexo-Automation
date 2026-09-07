@@ -15,9 +15,12 @@ This file records architecture choices for Nexo. Change a row here when the prod
 | D9  | Isolation oracle   | UI redirects; API uses 401 / 403 / 404. Customer reading another customer’s request is **404**, not 403 | Do not leak existence. Testers must not treat “hidden button” as security                         | Dedicated 403 HTML page; 403 for cross-customer GET                                                                            |
 | D10 | Tests in this repo | No `tests/` tree until after Iteration 5                                                                | You build the suite. Docs describe challenges, not spoilers                                       | A pre-written Playwright framework                                                                                             |
 | D11 | Prisma version     | Pin Prisma **6.19.x** (`prisma-client-js`, `url` in schema)                                             | Classic Next.js + Prisma labs and reset scripts stay simple                                       | Prisma 7/8 (`prisma.config.ts` + `@prisma/adapter-pg`)                                                                         |
-| D12 | Auth.js timing     | Not in Iteration 1                                                                                      | Skeleton must boot and render `/login` first                                                      | Wiring sessions before pages exist                                                                                             |
+| D12 | Auth.js timing     | Iteration 2                                                                                             | Skeleton (I1) must boot first; sessions after pages exist                                         | Wiring sessions in Iteration 1                                                                                                 |
+| D13 | Auth.js version    | `next-auth@5.0.0-beta.32` (Auth.js v5), JWT session, Credentials only                                   | Matches D2. No Prisma adapter (Credentials + JWT). Cookie via Auth.js + thin `/api/auth/*`        | next-auth v4 pages router; database sessions                                                                                   |
+| D14 | Route protection   | Next.js 16 `proxy.ts` + Auth.js `authorized` callback                                                   | `middleware.ts` is deprecated in Next 16                                                          | Express-style middleware; protecting only in the page                                                                         |
 
-## Iteration 1 follow-through
+## Iteration 2 follow-through
 
 - Env pattern: `.env.example` → `.env.local` (Next.js). Prisma CLI scripts load `.env.local` via `dotenv-cli`.
-- Seed users, Auth.js, middleware, and Playwright are **not** this iteration.
+- Seed: roles + three users (`npm run db:seed`). Request fixtures wait for Iteration 5.
+- Login UI posts to `POST /api/auth/login`. Auth.js still owns `/api/auth/[...nextauth]`.

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function AgentRequestsPage() {
   return (
-    <AppShell role="agent">
+    <AppShell>
       <div {...loc(testId.pageAgentRequests)}>
         <IterationBanner>
           Iteration 1 placeholder. The agent queue lands in Iteration 4.

@@ -13,7 +13,7 @@ export default async function CustomerRequestDetailPage({
   const { publicId } = await params;
 
   return (
-    <AppShell role="customer">
+    <AppShell>
       <div {...loc(testId.pageCustomerRequestDetail)}>
         <IterationBanner>
           Iteration 1 placeholder. Request body and isolation rules land in

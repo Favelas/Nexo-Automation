@@ -2,7 +2,7 @@
 
 All routes live under `/api/*`. JSON only. No DELETE in MVP.
 
-Handlers are **not** implemented in Iteration 1. This file is the target contract.
+Auth routes below are implemented in Iteration 2. Request handlers wait for Iteration 5.
 
 ## Envelope
 
@@ -29,15 +29,15 @@ Success bodies are resource objects or lists (defined per route). Errors:
 
 ## Auth
 
-Session is an HTTP-only cookie set by Auth.js (Credentials). Pin the Auth.js version in Iteration 2 and document the real login route if it differs from this table.
+Session is an HTTP-only cookie set by Auth.js Credentials (`next-auth@5.0.0-beta.32`, JWT). Tests should not guess the cookie name.
+
+Auth.js also owns `GET`/`POST` `/api/auth/[...nextauth]`. The UI and API tests use the thin wrappers:
 
 | Method | Path               | Auth             | Notes                                                                         |
 | ------ | ------------------ | ---------------- | ----------------------------------------------------------------------------- |
 | `POST` | `/api/auth/login`  | Public           | JSON `{ "email", "password" }`. Sets session cookie. Generic error on failure |
 | `POST` | `/api/auth/logout` | Session optional | Clears cookie                                                                 |
 | `GET`  | `/api/auth/me`     | Required         | `401` if anonymous. Returns `{ "id", "email", "name", "role" }`               |
-
-If Auth.js owns `POST /api/auth/[...nextauth]` instead of `/api/auth/login`, keep a thin `/api/auth/login` wrapper **or** update this table in the same PR that pins Auth.js. Tests should not guess the cookie name.
 
 ## Categories
 

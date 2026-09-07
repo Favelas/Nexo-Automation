@@ -5,6 +5,8 @@ This folder is the **automation handbook**. It teaches you how to design and gro
 | Read this                                                          | When                                                                         |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | **This page**                                                      | First. Where tests live, what you can automate _today_, first 90 minutes.    |
+| [PROGRESS.md](./PROGRESS.md)                                       | **Tracker.** Automation Builder steps 1–9 — what is done, what is next.      |
+| [ITERATIONS.md](./ITERATIONS.md)                                   | **Tracker.** Product I1–I5 vs suite levels 0–13; Auth gate; tick boxes.      |
 | [FRAMEWORK.md](./FRAMEWORK.md)                                     | Before you create folders. Architecture, global config, POM, auth, data, CI. |
 | [../AUTOMATION_LEARNING_GUIDE.md](../AUTOMATION_LEARNING_GUIDE.md) | Curriculum (concept → practice).                                             |
 | [../AUTOMATION_ROADMAP.md](../AUTOMATION_ROADMAP.md)               | Levels and definition of done.                                               |
@@ -22,20 +24,18 @@ This folder is the **automation handbook**. It teaches you how to design and gro
 | Tests only on `nexo-dev`          | No. `nexo-dev` is a **backup** of `main`, not a test silo.                 |
 | Download ZIP / folder without Git | No. You will not see agent pushes or history.                              |
 
-You still **write** every spec. Nothing under `e2e/` exists until you create it.
+You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists. Track ticks in [PROGRESS.md](./PROGRESS.md) and [ITERATIONS.md](./ITERATIONS.md).
 
-## What you can automate right now (Iteration 1)
+## What you can automate right now
 
-The app **boots**. Login **does not authenticate**. Seed users **are not in the database**.
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts` (form visible). Product Iteration 2 is wiring auth. **Do not add `e2e/auth/` until the Auth gate is green by hand** ([ITERATIONS.md](./ITERATIONS.md)).
 
-| Automate now                                                   | Wait                                           |
-| -------------------------------------------------------------- | ---------------------------------------------- |
-| `/login` is reachable                                          | Valid login → dashboard                        |
-| Form labels + `data-testid` (`login-email`, `login-submit`, …) | Invalid-login `role="alert"` copy              |
-| Heading **Log in**; Iteration banner                           | RBAC redirects                                 |
-| Submit stays on `/login` (placeholder status text)             | Create request, status change, API 401/403/404 |
-
-If a test needs `customer.a@nexo.test` to land on `/customer/dashboard`, **stop**. That is Iteration 2+.
+| Automate now (Level 0) | Wait for Auth gate, then I2 suite |
+| ---------------------- | --------------------------------- |
+| `/login` form + labels | Valid login → dashboard           |
+| Heading **Log in**     | Invalid-login `role="alert"`      |
+|                        | Logout, anonymous + wrong-role redirects |
+|                        | Create request, status, API 401/403/404 |
 
 ## First 90 minutes (after you have `npm run dev` working)
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CustomerRequestsPage() {
   return (
-    <AppShell role="customer">
+    <AppShell>
       <div {...loc(testId.pageCustomerRequests)}>
         <IterationBanner>
           Iteration 1 placeholder. Your requests will list here in Iteration 3.

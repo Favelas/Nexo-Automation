@@ -4,9 +4,9 @@ Hard stop after Iteration 5. After each iteration: what works, what is missing, 
 
 | Iteration       | Build                                                   | Then stop                   |
 | --------------- | ------------------------------------------------------- | --------------------------- |
-| **1** (current) | Skeleton, Postgres, Prisma, empty pages, env example    | App boots, `/login` renders |
+| **1**           | Skeleton, Postgres, Prisma, empty pages, env example    | App boots, `/login` renders |
 | **2**           | Auth.js Credentials, seed users, middleware, dashboards | Manual login checklist      |
-| **3**           | Customer create / list / detail                         | Customer happy path         |
+| **3** (next)    | Customer create / list / detail                         | Customer happy path         |
 | **4**           | Agent queue / detail / status                           | Cross-role status visible   |
 | **5**           | Seed, reset, API parity, selective test ids             | Quality gates green         |
 | **STOP**        | You start Playwright                                    | No generated framework      |

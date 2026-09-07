@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { AppShell } from "@/components/AppShell";
 import { IterationBanner } from "@/components/IterationBanner";
 import { loc, testId } from "@/lib/test-ids";
@@ -8,12 +9,14 @@ export const metadata: Metadata = {
   title: "Customer dashboard",
 };
 
-export default function CustomerDashboardPage() {
+export default async function CustomerDashboardPage() {
+  const session = await auth();
+
   return (
-    <AppShell role="customer">
+    <AppShell>
       <div {...loc(testId.pageCustomerDashboard)}>
         <IterationBanner>
-          Iteration 1 placeholder. Auth, counts, and live data are not wired.
+          Iteration 2: you are signed in. Request counts land in Iteration 3.
         </IterationBanner>
         <h1
           {...loc(testId.pageHeading)}
@@ -22,7 +25,8 @@ export default function CustomerDashboardPage() {
           Customer dashboard
         </h1>
         <p className="mb-6 text-slate-700">
-          This page will summarize your open requests after Iteration 3.
+          Signed in as {session?.user?.name ?? "customer"}. Request summaries
+          land in Iteration 3.
         </p>
         <p>
           <Link

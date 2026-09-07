@@ -1,3 +1,5 @@
+import { logout } from "@/lib/auth/actions";
+import { auth } from "@/auth";
 import { loc, testId } from "@/lib/test-ids";
 import Link from "next/link";
 
@@ -34,13 +36,21 @@ const agentLinks = [
   },
 ] as const;
 
-export function AppShell({
-  role,
-  children,
-}: {
-  role: ShellRole;
-  children: React.ReactNode;
-}) {
+function roleFromSession(
+  role: string | undefined,
+): Exclude<ShellRole, "guest"> | null {
+  if (role === "AGENT") {
+    return "agent";
+  }
+  if (role === "CUSTOMER") {
+    return "customer";
+  }
+  return null;
+}
+
+export async function AppShell({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+  const role = roleFromSession(session?.user?.role) ?? "guest";
   const links =
     role === "customer" ? customerLinks : role === "agent" ? agentLinks : [];
 
@@ -76,13 +86,15 @@ export function AppShell({
                   {link.label}
                 </Link>
               ))}
-              <Link
-                {...loc(testId.navLogout)}
-                href="/login"
-                className="rounded border border-white/40 px-2 py-1 hover:bg-white/10"
-              >
-                Log out
-              </Link>
+              <form action={logout}>
+                <button
+                  type="submit"
+                  {...loc(testId.navLogout)}
+                  className="rounded border border-white/40 px-2 py-1 hover:bg-white/10"
+                >
+                  Log out
+                </button>
+              </form>
             </nav>
           ) : null}
         </div>
@@ -97,7 +109,7 @@ export function AppShell({
         {...loc(testId.appFooter)}
         className="border-t border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-600"
       >
-        Nexo — internal request tracker (lab). Iteration 1 skeleton.
+        Nexo — internal request tracker (lab). Iteration 2 auth.
       </footer>
     </div>
   );

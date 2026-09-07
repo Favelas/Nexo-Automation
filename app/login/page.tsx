@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <AppShell role="guest">
+    <AppShell>
       <div {...loc(testId.pageLogin)}>
         <IterationBanner>
-          Iteration 1: the login form is on purpose. Submitting does not create
-          a session yet.
+          Iteration 2: use a seed account. Invalid email or password shows a
+          generic alert.
         </IterationBanner>
         <h1
           {...loc(testId.pageHeading)}

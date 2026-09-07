@@ -19,7 +19,7 @@ Prisma 6  →  PostgreSQL 16 (Docker Compose)
 
 | Piece                              | Role                                                       |
 | ---------------------------------- | ---------------------------------------------------------- |
-| Next.js App Router                 | Pages, layouts, later middleware for session               |
+| Next.js App Router                 | Pages, layouts, `proxy.ts` for session redirects           |
 | REST route handlers                | Stable HTTP contract for UI and API tests                  |
 | Domain functions                   | Same create/list/status/isolation rules for pages and APIs |
 | Prisma                             | Schema, migrations, `db:reset`                             |
@@ -37,7 +37,7 @@ There is no separate API server. There is no Supabase. There is no object storag
 5. Prisma writes `requests` and `request_status_history` together where required.
 6. UI navigates; APIs return JSON status codes.
 
-Iteration 1 only boots the app and exposes the page map. Handlers and domain functions come later.
+Iteration 2 adds Auth.js, seed users, and route protection. Request handlers and domain functions come in later iterations.
 
 ## UI vs API oracles
 
@@ -71,7 +71,9 @@ Iteration 1 only boots the app and exposes the page map. Handlers and domain fun
 app/                 pages and route handlers
 components/          semantic UI
 lib/domain/          rules (from Iteration 3+)
-lib/prisma.ts        Prisma client singleton (ready, unused in Iteration 1)
+lib/prisma.ts        Prisma client singleton
+auth.ts / auth.config.ts  Auth.js (Iteration 2)
+proxy.ts             Route protection (Next.js 16)
 prisma/              schema + migrations
 ```
 

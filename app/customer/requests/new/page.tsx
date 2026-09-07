@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function NewCustomerRequestPage() {
   return (
-    <AppShell role="customer">
+    <AppShell>
       <div {...loc(testId.pageCustomerRequestNew)}>
         <IterationBanner>
           Iteration 1 placeholder. Creating a request lands in Iteration 3.

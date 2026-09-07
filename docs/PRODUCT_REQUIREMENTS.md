@@ -24,13 +24,13 @@ Do not call a feature automation-ready until these pass **manually**.
 
 ### Auth
 
-- [ ] Valid customer login lands on `/customer/dashboard`
-- [ ] Valid agent login lands on `/agent/dashboard`
-- [ ] Invalid login stays on `/login` with a generic error (`role="alert"`)
-- [ ] Logout returns to `/login` and session cannot open a protected page
-- [ ] Anonymous visit to a protected page redirects to `/login`
-- [ ] Customer hitting `/agent/*` redirects to the customer dashboard
-- [ ] Agent hitting `/customer/*` redirects to the agent dashboard
+- [x] Valid customer login lands on `/customer/dashboard`
+- [x] Valid agent login lands on `/agent/dashboard`
+- [x] Invalid login stays on `/login` with a generic error (`role="alert"`)
+- [x] Logout returns to `/login` and session cannot open a protected page
+- [x] Anonymous visit to a protected page redirects to `/login`
+- [x] Customer hitting `/agent/*` redirects to the customer dashboard
+- [x] Agent hitting `/customer/*` redirects to the agent dashboard
 
 ### Customer
 
@@ -56,7 +56,7 @@ Do not call a feature automation-ready until these pass **manually**.
 
 ## Manual checklists by iteration
 
-### Iteration 1 (this stop)
+### Iteration 1
 
 - [ ] `npm run dev` boots
 - [ ] `http://localhost:3000/login` renders a labeled email/password form and a **Log in** button
@@ -64,11 +64,11 @@ Do not call a feature automation-ready until these pass **manually**.
 - [ ] Docker Compose file exists; `docker compose up -d` starts Postgres when Docker is available
 - [ ] `npx prisma validate` succeeds against `prisma/schema.prisma`
 
-Login does **not** authenticate yet. That is Iteration 2.
+Login did **not** authenticate in Iteration 1.
 
 ### Iteration 2
 
-Manual login checklist in the Auth section above (except request features).
+Manual login checklist in the Auth section above (except request features). Seed users with `npm run db:seed`.
 
 ### Iteration 3
 
@@ -92,4 +92,4 @@ Canonical emails, password, seed requests, and isolation oracles: [README — Te
 | Customer B | `customer.b@nexo.test` | `CUSTOMER` | `NX-000003`               |
 | Agent      | `agent@nexo.test`      | `AGENT`    | (assigned on 002 and 003) |
 
-Shared password: `TEST_USER_PASSWORD` (`Password123!` in `.env.example`). Seed is not loaded in Iteration 1.
+Shared password: `TEST_USER_PASSWORD` (`Password123!` in `.env.example`). Users load in Iteration 2; request rows in Iteration 5.

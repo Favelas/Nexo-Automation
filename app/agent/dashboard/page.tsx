@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { AppShell } from "@/components/AppShell";
 import { IterationBanner } from "@/components/IterationBanner";
 import { loc, testId } from "@/lib/test-ids";
@@ -8,12 +9,14 @@ export const metadata: Metadata = {
   title: "Agent dashboard",
 };
 
-export default function AgentDashboardPage() {
+export default async function AgentDashboardPage() {
+  const session = await auth();
+
   return (
-    <AppShell role="agent">
+    <AppShell>
       <div {...loc(testId.pageAgentDashboard)}>
         <IterationBanner>
-          Iteration 1 placeholder. Queue counts land in Iteration 4.
+          Iteration 2: you are signed in. Queue counts land in Iteration 4.
         </IterationBanner>
         <h1
           {...loc(testId.pageHeading)}
@@ -22,7 +25,8 @@ export default function AgentDashboardPage() {
           Agent dashboard
         </h1>
         <p className="mb-6 text-slate-700">
-          This page will summarize the request queue after Iteration 4.
+          Signed in as {session?.user?.name ?? "agent"}. Queue summaries land in
+          Iteration 4.
         </p>
         <p>
           <Link

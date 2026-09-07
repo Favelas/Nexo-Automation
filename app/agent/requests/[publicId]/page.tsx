@@ -13,7 +13,7 @@ export default async function AgentRequestDetailPage({
   const { publicId } = await params;
 
   return (
-    <AppShell role="agent">
+    <AppShell>
       <div {...loc(testId.pageAgentRequestDetail)}>
         <IterationBanner>
           Iteration 1 placeholder. Status control lands in Iteration 4.

@@ -1,16 +1,50 @@
 "use client";
 
+import {
+  dashboardPath,
+  INVALID_LOGIN_MESSAGE,
+} from "@/lib/auth/dashboard-path";
 import { loc, testId } from "@/lib/test-ids";
+import type { RoleName } from "@prisma/client";
 import { FormEvent, useState } from "react";
 
 export function LoginForm() {
   const [message, setMessage] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setMessage(
-      "Login is not connected yet. Authentication lands in Iteration 2.",
-    );
+    setMessage(null);
+    setPending(true);
+
+    const form = new FormData(event.currentTarget);
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        setMessage(INVALID_LOGIN_MESSAGE);
+        return;
+      }
+
+      const body = (await response.json()) as { role?: RoleName };
+      if (!body.role) {
+        setMessage(INVALID_LOGIN_MESSAGE);
+        return;
+      }
+
+      window.location.assign(dashboardPath(body.role));
+    } catch {
+      setMessage(INVALID_LOGIN_MESSAGE);
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -54,14 +88,15 @@ export function LoginForm() {
       <button
         {...loc(testId.loginSubmit)}
         type="submit"
-        className="rounded bg-nexo-navy px-4 py-2 font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-nexo-accent focus:ring-offset-2"
+        disabled={pending}
+        className="rounded bg-nexo-navy px-4 py-2 font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-nexo-accent focus:ring-offset-2 disabled:opacity-60"
       >
         Log in
       </button>
       {message ? (
         <p
           {...loc(testId.loginStatus)}
-          role="status"
+          role="alert"
           className="text-sm text-slate-700"
         >
           {message}

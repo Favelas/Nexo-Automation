@@ -7,8 +7,8 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 |                |                                                                                                                                     |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | App            | Next.js 16 App Router, TypeScript, one PostgreSQL (Docker), Prisma 6                                                                |
-| Auth (planned) | Auth.js Credentials, HTTP-only cookie, roles `CUSTOMER` and `AGENT`                                                                 |
-| Current stop   | **Iteration 1** — app boots, page map + locators exist, **login does not authenticate**, no seed, no API                            |
+| Auth           | Auth.js Credentials, HTTP-only cookie, roles `CUSTOMER` and `AGENT`                                                                 |
+| Current stop   | **Iteration 2** — Auth.js Credentials, seed users, middleware/proxy, dashboards. Create/status/API requests wait for later iterations |
 | Git            | Work on **`main`**. **`nexo-dev`** is a backup snapshot of `main`                                                                   |
 | Automation     | Design in [`docs/automation/`](./docs/automation/README.md). Specs will live **in this repo** under `e2e/` (you create that folder) |
 
@@ -26,9 +26,9 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 
 Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
-## Current stop: Iteration 1
+## Current stop: Iteration 2
 
-The app boots. `/login` renders with stable `id` / `data-testid` locators. Routes in the page map exist as placeholders. **Login does not authenticate.** There is no seed data and no Playwright suite.
+Login authenticates against seed users. `/login` still has stable locators. Request pages stay placeholders until Iterations 3–4. REST request APIs wait for Iteration 5. Playwright has an Iteration 1 smoke (form visible); do not add `e2e/auth/` until the Auth checklist in `docs/PRODUCT_REQUIREMENTS.md` is green **by hand**.
 
 ## Clone onto your machine
 
@@ -79,13 +79,13 @@ git checkout main
 git pull origin main
 ```
 
-## Boot (Iteration 1)
+## Boot (Iteration 2)
 
 Needs: Node.js 20+, npm, Docker Desktop (Postgres). **Installed is not enough** — Docker Desktop must be **running** (whale icon ready) before any `docker` command. If the engine is off, `docker compose` fails with `error during connect` / `dockerDesktopLinuxEngine`.
 
-Iteration 1 pages render without a working database. **Login does not authenticate.** Start Postgres anyway so later iterations do not surprise you.
+Login needs Postgres + seed users. If the database is down, pages may still render but sign-in fails.
 
-Copy `.env.example` as-is for local lab work. `TEST_USER_PASSWORD` is the shared seed password below (`Password123!`). `AUTH_SECRET` is unused until Iteration 2; you can leave the example or set it with `openssl rand -base64 32`.
+Copy `.env.example` as-is for local lab work. `TEST_USER_PASSWORD` is the shared seed password below (`Password123!`). `AUTH_SECRET` must be a long random string (`openssl rand -base64 32`). After Postgres is up: `npm run db:deploy` then `npm run db:seed`. Do not run bare `npx prisma …` — Prisma will not see `.env.local`.
 
 ### Check the tools
 
@@ -110,10 +110,13 @@ docker compose up -d
 # 3. App dependencies (skip later if node_modules already exists)
 npm install
 
-# 4. Apply migrations (needs Postgres accepting connections)
-npx prisma migrate deploy
+# 4. Apply migrations (needs Postgres + .env.local)
+npm run db:deploy
 
-# 5. Dev server — leave this terminal open
+# 5. Seed roles + three users (Iteration 2)
+npm run db:seed
+
+# 6. Dev server — leave this terminal open
 npm run dev
 ```
 
@@ -139,7 +142,8 @@ Re-run `Copy-Item .env.example .env.local` only if `.env.local` is missing. Re-r
 | `Copy-Item .env.example .env.local` | Creates the local env file. Prisma and Next read `DATABASE_URL=postgresql://nexo:nexo@localhost:5432/nexo?schema=public` |
 | `docker compose up -d` | Starts Postgres 16 (`nexo` / `nexo` / db `nexo`) in the background on port **5432** |
 | `npm install` | Installs Next.js, Prisma, and the rest into `node_modules` |
-| `npx prisma migrate deploy` | Creates tables in that database |
+| `npm run db:deploy` | Applies migrations using `.env.local` |
+| `npm run db:seed` | Upserts CUSTOMER/AGENT roles and the three seed users |
 | `npm run dev` | Next.js 16 dev server. Default URL **http://localhost:3000**. Stops when you close the terminal or press `Ctrl+C` |
 
 ### How you know it is up
@@ -192,7 +196,8 @@ Iteration 1 UI still renders if Postgres is down. You only need a healthy `docke
 | `npm run format`              | Prettier                                          |
 | `npm run db:generate`         | Prisma Client                                     |
 | `npm run db:migrate`          | `prisma migrate dev` using `.env.local`           |
-| `npm run db:reset`            | Drop, migrate, seed (seed arrives in Iteration 5) |
+| `npm run db:reset`            | Drop, migrate, seed users (requests arrive in Iteration 5) |
+| `npm run db:seed`             | Upsert roles + the three seed users               |
 | `npm run db:validate`         | Validate `prisma/schema.prisma`                   |
 
 ### Page map
@@ -216,7 +221,7 @@ Iteration 1 UI still renders if Postgres is down. You only need a healthy `docke
 
 This is the **seed contract**. Use these accounts, ids, and expected results for every manual pass and, later, for automation. Do not invent extra users in tests.
 
-**When it is in the database:** Iteration 1 has **no seed and no real login**. The tables below are what seed will load (users in Iteration 2, full requests in Iteration 5 via `npm run db:reset`). Until then you can only check that pages render.
+**When it is in the database:** Iteration 2 seeds **users and roles** (`npm run db:seed` or `npm run db:reset`). Full request fixtures (`NX-000001`…) arrive in Iteration 5.
 
 Base URL: [http://localhost:3000](http://localhost:3000)
 
@@ -332,14 +337,16 @@ Error envelope:
 
 ### Manual checklist before you start Playwright
 
-**Iteration 1 (now)** — no accounts yet:
+**Iteration 2 (now)** — users exist after `npm run db:seed`:
 
 1. [ ] App boots; `/` redirects to `/login`
 2. [ ] Email and Password are labeled; button name is **Log in**
-3. [ ] `/customer/requests/NX-000001` and `/agent/requests/NX-000001` render (placeholders)
-4. [ ] Submit on login does **not** start a session
+3. [ ] Customer A lands on `/customer/dashboard`; agent lands on `/agent/dashboard`
+4. [ ] Invalid login stays on `/login` with `role="alert"` and **Invalid email or password.**
+5. [ ] Log out returns to `/login`; `/customer/dashboard` then redirects to `/login`
+6. [ ] Customer opening `/agent/dashboard` lands on `/customer/dashboard`
 
-**After auth + seed (do not automate until the quality gate in [`docs/PRODUCT_REQUIREMENTS.md`](./docs/PRODUCT_REQUIREMENTS.md) is green):**
+**After request features exist (do not automate until the quality gate in [`docs/PRODUCT_REQUIREMENTS.md`](./docs/PRODUCT_REQUIREMENTS.md) is green):**
 
 1. [ ] Customer A / Agent logins land on the dashboards in the user table
 2. [ ] Invalid login cases stay on `/login` with the generic alert
@@ -401,10 +408,10 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 
 ## What is not here yet
 
-- Auth.js / sessions (Iteration 2)
-- Create request / agent status (Iterations 3–4)
-- Seed + REST API (Iteration 5)
-- Playwright project/config (you add this under `e2e/`; see [`docs/automation/`](./docs/automation/README.md))
+- Customer create / list data (Iteration 3)
+- Agent queue / status changes (Iteration 4)
+- Request seed fixtures + REST `/api/requests` (Iteration 5)
+- Playwright `e2e/auth/` specs (after the Auth gate is green by hand)
 
 ## Docs
 
@@ -414,9 +421,11 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)                           | Shape, page map, oracles                                           |
 | [docs/PRODUCT_REQUIREMENTS.md](./docs/PRODUCT_REQUIREMENTS.md)           | MVP + quality gates                                                |
 | [docs/DATABASE.md](./docs/DATABASE.md)                                   | Schema                                                             |
-| [docs/API.md](./docs/API.md)                                             | REST contract (not implemented yet)                                |
+| [docs/API.md](./docs/API.md)                                             | REST contract (auth in I2; requests in I5)                         |
 | [docs/DEVELOPMENT_ROADMAP.md](./docs/DEVELOPMENT_ROADMAP.md)             | Build iterations                                                   |
 | [docs/automation/README.md](./docs/automation/README.md)                 | **Start here for Playwright** — where tests live, first 90 minutes |
+| [docs/automation/PROGRESS.md](./docs/automation/PROGRESS.md)             | Automation Builder — step-by-step progress                         |
+| [docs/automation/ITERATIONS.md](./docs/automation/ITERATIONS.md)         | Product vs suite map, gates, tick boxes                            |
 | [docs/automation/FRAMEWORK.md](./docs/automation/FRAMEWORK.md)           | Framework architecture, global config, POM, data, CI               |
 | [docs/AUTOMATION_LEARNING_GUIDE.md](./docs/AUTOMATION_LEARNING_GUIDE.md) | Curriculum (concept → practice)                                    |
 | [docs/AUTOMATION_ROADMAP.md](./docs/AUTOMATION_ROADMAP.md)               | Automation levels and definition of done                           |

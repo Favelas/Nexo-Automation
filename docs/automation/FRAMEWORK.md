@@ -481,13 +481,13 @@ Then assert list contains that title. PATCH **that** public id, never `NX-000001
 
 | App iteration | Product                         | Your suite                                                                                        |
 | ------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- |
-| **1 (now)**   | Pages + locators, no auth       | `e2e/smoke/login-form.spec.ts`: `/login`, labels/testids, submit does not navigate to a dashboard |
+| **1**         | Pages + locators, no auth       | `e2e/smoke/login-form.spec.ts`: `/login` form visible (rewritten when I2 login works) |
 | **2**         | Auth.js, seed users, middleware | Valid A/agent login, invalid login alert, logout, anonymous redirect, wrong-role redirect         |
 | **3**         | Customer create/list/detail     | Create validation; happy create; A does not see B’s id in the table                               |
 | **4**         | Agent queue/status              | Agent sees both customers; status change visible to A                                             |
 | **5**         | Seed reset, API parity          | API isolation/RBAC; `storageState`; one journey; then CI                                          |
 
-Manual quality gate: `docs/PRODUCT_REQUIREMENTS.md`. Do not mark a feature “automation-ready” until that checklist passes by hand.
+Manual quality gate: `docs/PRODUCT_REQUIREMENTS.md`. Do not mark a feature “automation-ready” until that checklist passes by hand. Live ticks and the Auth gate: [ITERATIONS.md](./ITERATIONS.md). Builder steps: [PROGRESS.md](./PROGRESS.md).
 
 ---
 
