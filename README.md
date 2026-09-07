@@ -1,5 +1,8 @@
 # Nexo
 
+**What this is:** How to **run** Nexo — clone, boot, Git, seed accounts, locator ids.  
+**Not this:** Product specs ([docs/README.md](./docs/README.md)) or Playwright design ([docs/automation/README.md](./docs/automation/README.md)).
+
 Nexo is a small **internal customer-request tracker** used as a QA lab. Customers file requests (`NX-000001` style ids). Agents move them through `SUBMITTED` → `IN_PROGRESS` → `RESOLVED`. You learn Playwright against a real Next.js UI **and** (later) the same rules on REST `/api/*`.
 
 It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built test framework. You add Playwright yourself.
@@ -10,25 +13,25 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 | Auth           | Auth.js Credentials, HTTP-only cookie, roles `CUSTOMER` and `AGENT`                                                                 |
 | Current stop   | **Iteration 2** — Auth.js Credentials, seed users, middleware/proxy, dashboards. Create/status/API requests wait for later iterations |
 | Git            | Work on **`main`**. **`nexo-dev`** is a backup snapshot of `main`                                                                   |
-| Automation     | Design in [`docs/automation/`](./docs/automation/README.md). Specs will live **in this repo** under `e2e/` (you create that folder) |
+| Automation     | Design in [`docs/automation/`](./docs/automation/README.md). Specs live in this repo under `e2e/` |
 
 ### Start here
 
 | If you want to…                            | Go to                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Run the app                                | [Boot](#boot-iteration-1) below                                                                                                      |
-| Understand the product                     | [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md), [`docs/PRODUCT_REQUIREMENTS.md`](./docs/PRODUCT_REQUIREMENTS.md)                   |
+| Understand the product                     | [`docs/README.md`](./docs/README.md), then [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)                                          |
 | Manual accounts, seed ids, isolation rules | [Test data](#test-data-manual-kit)                                                                                                   |
 | Locator `data-testid` list                 | [Locator IDs](#locator-ids)                                                                                                          |
 | **Design and start Playwright yourself**   | **[`docs/automation/README.md`](./docs/automation/README.md)** then [`docs/automation/FRAMEWORK.md`](./docs/automation/FRAMEWORK.md) |
-| Practice exercises (no spoilers)           | [`docs/QA_CHALLENGES.md`](./docs/QA_CHALLENGES.md)                                                                                   |
+| Practice exercises (no spoilers)           | [`docs/automation/QA_CHALLENGES.md`](./docs/automation/QA_CHALLENGES.md)                                                             |
 | Keep GitHub and your PC in sync            | [Cursor + Git](#cursor--git-fastest-loop)                                                                                            |
 
 Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
 ## Current stop: Iteration 2
 
-Login authenticates against seed users. `/login` still has stable locators. Request pages stay placeholders until Iterations 3–4. REST request APIs wait for Iteration 5. Playwright has an Iteration 1 smoke (form visible); do not add `e2e/auth/` until the Auth checklist in `docs/PRODUCT_REQUIREMENTS.md` is green **by hand**.
+Login authenticates against seed users. `/login` still has stable locators. Request pages stay placeholders until Iterations 3–4. REST request APIs wait for Iteration 5. Playwright has smoke + I2 auth specs; do not add create/status tests until those screens work **by hand**.
 
 ## Clone onto your machine
 
@@ -411,22 +414,8 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 - Customer create / list data (Iteration 3)
 - Agent queue / status changes (Iteration 4)
 - Request seed fixtures + REST `/api/requests` (Iteration 5)
-- Playwright `e2e/auth/` specs (after the Auth gate is green by hand)
+- Playwright create / isolation specs (after Iteration 3 works by hand)
 
 ## Docs
 
-| File                                                                     | Contents                                                           |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| [docs/DECISIONS.md](./docs/DECISIONS.md)                                 | Architecture choices                                               |
-| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)                           | Shape, page map, oracles                                           |
-| [docs/PRODUCT_REQUIREMENTS.md](./docs/PRODUCT_REQUIREMENTS.md)           | MVP + quality gates                                                |
-| [docs/DATABASE.md](./docs/DATABASE.md)                                   | Schema                                                             |
-| [docs/API.md](./docs/API.md)                                             | REST contract (auth in I2; requests in I5)                         |
-| [docs/DEVELOPMENT_ROADMAP.md](./docs/DEVELOPMENT_ROADMAP.md)             | Build iterations                                                   |
-| [docs/automation/README.md](./docs/automation/README.md)                 | **Start here for Playwright** — where tests live, first 90 minutes |
-| [docs/automation/PROGRESS.md](./docs/automation/PROGRESS.md)             | Automation Builder — step-by-step progress                         |
-| [docs/automation/ITERATIONS.md](./docs/automation/ITERATIONS.md)         | Product vs suite map, gates, tick boxes                            |
-| [docs/automation/FRAMEWORK.md](./docs/automation/FRAMEWORK.md)           | Framework architecture, global config, POM, data, CI               |
-| [docs/AUTOMATION_LEARNING_GUIDE.md](./docs/AUTOMATION_LEARNING_GUIDE.md) | Curriculum (concept → practice)                                    |
-| [docs/AUTOMATION_ROADMAP.md](./docs/AUTOMATION_ROADMAP.md)               | Automation levels and definition of done                           |
-| [docs/QA_CHALLENGES.md](./docs/QA_CHALLENGES.md)                         | Practice without spoilers                                          |
+Map of every file: [`docs/README.md`](./docs/README.md). Product specs stay in `docs/`. Playwright lives in [`docs/automation/`](./docs/automation/README.md).

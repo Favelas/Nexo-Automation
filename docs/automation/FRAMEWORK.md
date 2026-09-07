@@ -1,8 +1,9 @@
 # Nexo automation framework architecture
 
-Handbook for **you** to implement. This file is analysis and a blueprint. It is not a generated Playwright project.
+**What this is:** Blueprint for **how to structure** the suite — folders, `playwright.config.ts`, locators, POM, fixtures, data, CI. Analysis, not generated code.  
+**Not this:** Daily ticks ([PROGRESS.md](./PROGRESS.md)), skill lessons ([AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md)), or app architecture ([../ARCHITECTURE.md](../ARCHITECTURE.md)).
 
-How to use it: read §1–§6 before creating files. Skim §7–§12 before the second spec. Use §13–§16 as a checklist while the suite grows. Pair with [README.md](./README.md) (start here) and the [learning guide](../AUTOMATION_LEARNING_GUIDE.md).
+How to use it: read §1–§6 before creating files. Skim §7–§12 before the second spec. Use §13–§16 as a checklist while the suite grows. Pair with [README.md](./README.md) (start here).
 
 ---
 
@@ -580,6 +581,6 @@ You are doing this right when:
 - The HTML report + a trace are enough to debug without a huddle.
 - The suite is smaller than the number of pages × statuses × roles.
 
-Then follow [AUTOMATION_ROADMAP.md](../AUTOMATION_ROADMAP.md) for levels 1–13.
+Then follow [AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md) for levels 1–13.
 
-Related: [QA_CHALLENGES.md](../QA_CHALLENGES.md), [API.md](../API.md), [ARCHITECTURE.md](../ARCHITECTURE.md), root README test data and locator tables.
+Related: [QA_CHALLENGES.md](./QA_CHALLENGES.md), [API.md](../API.md), [ARCHITECTURE.md](../ARCHITECTURE.md), root README test data and locator tables.

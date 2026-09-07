@@ -1,5 +1,8 @@
 # Database
 
+**What this is:** Postgres / Prisma schema — tables, enums, public ids, seed order, SQLite fallback.  
+**Not this:** HTTP routes ([API.md](./API.md)) or how to boot Docker (root [README.md](../README.md)).
+
 PostgreSQL is the default. Prisma 6 owns the schema. Tables may be empty until Iteration 5 seed.
 
 ## Engine

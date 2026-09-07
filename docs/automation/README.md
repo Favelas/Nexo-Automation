@@ -1,17 +1,20 @@
 # Automation — start here
 
-This folder is the **automation handbook**. It teaches you how to design and grow a Playwright suite against Nexo. It does **not** contain test code. You add `playwright.config.ts` and `e2e/` yourself.
+**What this is:** Index of the Playwright handbook. Where tests live, what you can automate today, first 90 minutes.  
+**Not this:** How to boot the app (root [README.md](../../README.md)) or what the product must do ([../PRODUCT_REQUIREMENTS.md](../PRODUCT_REQUIREMENTS.md)). Product docs live in [../README.md](../README.md).
 
-| Read this                                                          | When                                                                         |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| **This page**                                                      | First. Where tests live, what you can automate _today_, first 90 minutes.    |
-| [PROGRESS.md](./PROGRESS.md)                                       | **Tracker.** Automation Builder steps 1–9 — what is done, what is next.      |
-| [ITERATIONS.md](./ITERATIONS.md)                                   | **Tracker.** Product I1–I5 vs suite levels 0–13; Auth gate; tick boxes.      |
-| [FRAMEWORK.md](./FRAMEWORK.md)                                     | Before you create folders. Architecture, global config, POM, auth, data, CI. |
-| [../AUTOMATION_LEARNING_GUIDE.md](../AUTOMATION_LEARNING_GUIDE.md) | Curriculum (concept → practice).                                             |
-| [../AUTOMATION_ROADMAP.md](../AUTOMATION_ROADMAP.md)               | Levels and definition of done.                                               |
-| [../QA_CHALLENGES.md](../QA_CHALLENGES.md)                         | Exercises without spoilers.                                                  |
-| [../../README.md](../../README.md)                                 | App boot, seed accounts, locator `data-testid` list.                         |
+This folder does **not** contain test code. Specs live in `e2e/`.
+
+| Read this | What this is |
+| --------- | ------------ |
+| **This page** | First. Placement, today vs later, locator cheat sheet |
+| [PROGRESS.md](./PROGRESS.md) | Day-to-day Builder — tick while you work |
+| [ITERATIONS.md](./ITERATIONS.md) | Live tracker: product I1–I5 vs suite levels |
+| [FRAMEWORK.md](./FRAMEWORK.md) | How to structure the suite (config, POM, data, CI) |
+| [AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md) | Skill levels — **definition of done** |
+| [AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md) | Same levels — **curriculum** (concept → practice) |
+| [QA_CHALLENGES.md](./QA_CHALLENGES.md) | Exercises without spoilers |
+| [../../README.md](../../README.md) | App boot, seed accounts, locator `data-testid` list |
 
 ## Where should the suite live?
 
@@ -28,16 +31,17 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts` (form visible). Product Iteration 2 is wiring auth. **Do not add `e2e/auth/` until the Auth gate is green by hand** ([ITERATIONS.md](./ITERATIONS.md)).
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth specs + `LoginPage` are in `e2e/auth/` and `e2e/pages/`. **Do not add create / isolation / status specs until product Iteration 3+ works by hand** ([ITERATIONS.md](./ITERATIONS.md)).
 
-| Automate now (Level 0) | Wait for Auth gate, then I2 suite |
-| ---------------------- | --------------------------------- |
-| `/login` form + labels | Valid login → dashboard           |
-| Heading **Log in**     | Invalid-login `role="alert"`      |
-|                        | Logout, anonymous + wrong-role redirects |
-|                        | Create request, status, API 401/403/404 |
+| Already automated | Wait for the matching product gate |
+| ----------------- | ---------------------------------- |
+| `/login` form + labels | Create request, list, detail (I3) |
+| Valid / invalid login, logout, redirects | Agent queue / status (I4) |
+| | API 401/403/404, seed rows (I5) |
 
 ## First 90 minutes (after you have `npm run dev` working)
+
+Already done on this machine — see [PROGRESS.md](./PROGRESS.md). Keep the recipe if you re-init.
 
 1. Read [FRAMEWORK.md](./FRAMEWORK.md) sections 1–6 (placement, pyramid, tree, config, env, locators).
 2. From the repo root, run Playwright’s init yourself (`npm init playwright@latest` or install `@playwright/test` and create `playwright.config.ts`). Point `testDir` at `e2e`.

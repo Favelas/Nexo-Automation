@@ -1,5 +1,8 @@
 # Development roadmap
 
+**What this is:** What to **build** in product Iterations 1–5, then stop growing the app.  
+**Not this:** Suite skill levels ([automation/AUTOMATION_ROADMAP.md](./automation/AUTOMATION_ROADMAP.md)) or live ticks ([automation/ITERATIONS.md](./automation/ITERATIONS.md)). This lab also allows an Iteration 1 Playwright smoke; track that in the automation folder.
+
 Hard stop after Iteration 5. After each iteration: what works, what is missing, how to validate manually, what you _could_ automate — then wait.
 
 | Iteration       | Build                                                   | Then stop                   |

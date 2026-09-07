@@ -1,5 +1,8 @@
 # Architecture
 
+**What this is:** How the Nexo **app** is shaped — runtime pieces, page map, request flow, UI vs API oracles.  
+**Not this:** What to build next ([DEVELOPMENT_ROADMAP.md](./DEVELOPMENT_ROADMAP.md)), manual checklists ([PRODUCT_REQUIREMENTS.md](./PRODUCT_REQUIREMENTS.md)), or Playwright steps ([automation/README.md](./automation/README.md)).
+
 Nexo is a single Next.js App Router application with TypeScript, a PostgreSQL database, and JSON REST handlers under `/api/*`.
 
 ```

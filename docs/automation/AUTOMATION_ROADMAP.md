@@ -1,8 +1,11 @@
 # Automation roadmap
 
-Levels match [AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md). **How to structure the suite** (same repo, `e2e/`, `playwright.config.ts`): [automation/FRAMEWORK.md](./automation/FRAMEWORK.md).
+**What this is:** Skill levels 0–13 and the **definition of done** for each.  
+**Not this:** The lesson text for those levels ([AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md)), live ticks ([ITERATIONS.md](./ITERATIONS.md)), or how to structure folders ([FRAMEWORK.md](./FRAMEWORK.md)).
 
-Level 0 now lives on **`main`** under `e2e/smoke/`. Tick current stop in [automation/ITERATIONS.md](./automation/ITERATIONS.md). Do not put tests in a separate repo or only on `nexo-dev`.
+Levels match the learning guide. **How to structure the suite** (same repo, `e2e/`, `playwright.config.ts`): [FRAMEWORK.md](./FRAMEWORK.md).
+
+Level 0 now lives on **`main`** under `e2e/smoke/`. Tick current stop in [ITERATIONS.md](./ITERATIONS.md). Do not put tests in a separate repo or only on `nexo-dev`.
 
 Definition of done is what _you_ produce. This repo will not ship a generated framework.
 

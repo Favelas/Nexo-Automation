@@ -1,5 +1,8 @@
 # Automation Builder
 
+**What this is:** Day-to-day steps while you build the suite. Tick a box on **this** machine.  
+**Not this:** Product-vs-suite map ([ITERATIONS.md](./ITERATIONS.md)), skill **definition of done** ([AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md)), or how folders/config should look ([FRAMEWORK.md](./FRAMEWORK.md)).
+
 While creating an automation framework:
 
 1. Consider the structure

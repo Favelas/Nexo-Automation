@@ -1,8 +1,9 @@
 # Automation learning guide
 
-Curriculum for Nexo. Each level: concept → why it matters → when to use it → how it shows up in Nexo → practice → expected result.
+**What this is:** Curriculum for the same levels as the roadmap — concept → why → when → Nexo → practice → expected result.  
+**Not this:** One-line definition of done ([AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md)) or live ticks ([ITERATIONS.md](./ITERATIONS.md)). Architecture: [README.md](./README.md).
 
-Work in order. You **may** add Playwright now for an Iteration 1 **login-form smoke** (page renders, no real session). Do **not** write a “valid login lands on dashboard” spec until Iteration 2 works manually. A serious suite (RBAC, API, journeys) waits until Iteration 5’s quality gate is green. Architecture, folder layout, and global config: [automation/README.md](./automation/README.md). Start with **one** spec, not a framework.
+Work in order. You **may** add Playwright now for an Iteration 1 **login-form smoke** (page renders, no real session). Do **not** write a “valid login lands on dashboard” spec until Iteration 2 works manually. A serious suite (RBAC, API, journeys) waits until Iteration 5’s quality gate is green. Architecture, folder layout, and global config: [README.md](./README.md). Start with **one** spec, not a framework.
 
 ## Pyramid
 

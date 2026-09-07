@@ -1,6 +1,9 @@
 # Decision log
 
-This file records architecture choices for Nexo. Change a row here when the product changes; do not leave stale decisions only in chat.
+**What this is:** Why Nexo is built this way (Auth.js, Postgres, 404 isolation, no pre-built suite). Change a row when the product changes.  
+**Not this:** How the app looks today ([ARCHITECTURE.md](./ARCHITECTURE.md)) or Playwright how-to ([automation/FRAMEWORK.md](./automation/FRAMEWORK.md)).
+
+This file records architecture choices for Nexo. Do not leave stale decisions only in chat.
 
 | ID  | Decision           | Choice                                                                                                  | Why                                                                                               | Rejected                                                                                                                       |
 | --- | ------------------ | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |

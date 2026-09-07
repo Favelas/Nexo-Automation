@@ -1,5 +1,8 @@
 # Product requirements (MVP)
 
+**What this is:** What the product must do, what is out of MVP, and the **manual** quality-gate checklists. Tick a box only after you prove it in the browser.  
+**Not this:** Build order ([DEVELOPMENT_ROADMAP.md](./DEVELOPMENT_ROADMAP.md)), live product-vs-suite ticks ([automation/ITERATIONS.md](./automation/ITERATIONS.md)), or HTTP details ([API.md](./API.md)).
+
 Enough product to start automation — nothing else.
 
 Nexo is an internal customer-request tracker. Customers submit requests. Agents work them through a small status set. The app exists so a tester can learn Playwright against a realistic UI **and** a real REST API.

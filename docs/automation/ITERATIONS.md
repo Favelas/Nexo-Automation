@@ -1,10 +1,13 @@
 # Iterations — product vs suite
 
+**What this is:** Live tracker — where the **app** is (I1–I5) and what the **suite** may prove. Tick when it is true.  
+**Not this:** What to **build** ([../DEVELOPMENT_ROADMAP.md](../DEVELOPMENT_ROADMAP.md)), skill lessons ([AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md)), or daily Builder steps ([PROGRESS.md](./PROGRESS.md)).
+
 Place to track **where the app is** and **what the suite is allowed to prove**. Update the status table when an iteration ships or a level goes green.
 
 How to use it: product row first, manual gate second, spec third. Do not write the dashboard login spec until Iteration 2 passes by hand.
 
-Sources: [DEVELOPMENT_ROADMAP.md](../DEVELOPMENT_ROADMAP.md), [PRODUCT_REQUIREMENTS.md](../PRODUCT_REQUIREMENTS.md), [FRAMEWORK.md §14](./FRAMEWORK.md#14-what-to-automate-at-each-app-iteration), [AUTOMATION_ROADMAP.md](../AUTOMATION_ROADMAP.md). Day-to-day steps: [PROGRESS.md](./PROGRESS.md).
+Sources: [DEVELOPMENT_ROADMAP.md](../DEVELOPMENT_ROADMAP.md), [PRODUCT_REQUIREMENTS.md](../PRODUCT_REQUIREMENTS.md), [FRAMEWORK.md §14](./FRAMEWORK.md#14-what-to-automate-at-each-app-iteration), [AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md). Day-to-day steps: [PROGRESS.md](./PROGRESS.md).
 
 The product roadmap says “start Playwright after Iteration 5”. This lab also allows an Iteration 1 smoke (`FRAMEWORK.md`). That smoke is done. From here: **product first, test after**.
 
@@ -53,7 +56,7 @@ Out of MVP (never in these five): admin, register, forgot password, comments, up
 | 12 | CI | GitHub Actions: lint/build + Playwright + Compose Postgres | [ ] |
 | 13 | Advanced | Trace on failure; at least one accessibility assertion | [ ] |
 
-Levels 1–3 are unblocked. Levels 5–6 wait on real login copied across files. Do not fill `e2e/pages/` or `e2e/fixtures/` to “look ready”.
+Levels 0–4 are done. Levels 5–6 wait until another spec needs “already logged in”. Do not fill `e2e/fixtures/` to “look ready”.
 
 ## Auth gate (unlocks I2 suite)
 
@@ -73,13 +76,13 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 
 ## Rules that keep regression small
 
-1. **Structure** — specs only where a test exists (`e2e/smoke/` now). Empty POM/fixture files are not progress.
+1. **Structure** — specs only where a test exists (`e2e/smoke/`, `e2e/auth/`). Empty fixture files are not progress.
 2. **What to automate** — only what the current iteration guarantees by hand.
 3. **Less regression** — few tests, product oracles. Do not keep `example.spec.ts` (playwright.dev). Do not write a red dashboard spec “for later”.
 
 ## What not to do at this stop
 
-- Do not start Iteration 3 product and Level 1 auth specs in the same sitting if you will mix oracles.
-- Do not start POM until a **second** spec copies login locators.
+- Do not write I3 specs until create → list → detail works by hand.
+- Do not add more login tests.
 - Do not add `storageState` / custom fixtures yet.
 - Do not treat `/playwright/.auth/` in `.gitignore` as the Nexo path. Session files (later) go under `e2e/.auth/` (already gitignored).

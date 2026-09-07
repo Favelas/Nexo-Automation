@@ -1,5 +1,8 @@
 # API contract (MVP)
 
+**What this is:** The REST contract under `/api/*` — methods, status codes, bodies.  
+**Not this:** Page map ([ARCHITECTURE.md](./ARCHITECTURE.md)), schema ([DATABASE.md](./DATABASE.md)), or how to write API specs ([automation/FRAMEWORK.md](./automation/FRAMEWORK.md)).
+
 All routes live under `/api/*`. JSON only. No DELETE in MVP.
 
 Auth routes below are implemented in Iteration 2. Request handlers wait for Iteration 5.
