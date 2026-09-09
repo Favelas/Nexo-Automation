@@ -28,7 +28,7 @@ export function EmptyRequestTable({ caption }: { caption: string }) {
               colSpan={4}
               className="px-4 py-6 text-slate-600"
             >
-              No requests yet. Seed data arrives in Iteration 5.
+              No requests yet. Agent queue data lands in Iteration 4.
             </td>
           </tr>
         </tbody>

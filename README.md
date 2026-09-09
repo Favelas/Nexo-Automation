@@ -11,7 +11,7 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | App            | Next.js 16 App Router, TypeScript, one PostgreSQL (Docker), Prisma 6                                                                |
 | Auth           | Auth.js Credentials, HTTP-only cookie, roles `CUSTOMER` and `AGENT`                                                                 |
-| Current stop   | **Iteration 2** — Auth.js Credentials, seed users, middleware/proxy, dashboards. Create/status/API requests wait for later iterations |
+| Current stop   | **Iteration 3** — customer create / list / detail. Agent status and seed `NX-000001` rows wait. |
 | Git            | Work on **`main`**. **`nexo-dev`** is a backup snapshot of `main`                                                                   |
 | Automation     | Design in [`docs/automation/`](./docs/automation/README.md). Specs live in this repo under `e2e/` |
 
@@ -29,9 +29,9 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 
 Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
-## Current stop: Iteration 2
+## Current stop: Iteration 3
 
-Login authenticates against seed users. `/login` still has stable locators. Request pages stay placeholders until Iterations 3–4. REST request APIs wait for Iteration 5. Playwright has smoke + I2 auth specs; do not add create/status tests until those screens work **by hand**.
+Playwright still has smoke + I2 auth specs. I3 product is green by hand — create / list / detail specs are unblocked.
 
 ## Clone onto your machine
 
@@ -224,7 +224,7 @@ Iteration 1 UI still renders if Postgres is down. You only need a healthy `docke
 
 This is the **seed contract**. Use these accounts, ids, and expected results for every manual pass and, later, for automation. Do not invent extra users in tests.
 
-**When it is in the database:** Iteration 2 seeds **users and roles** (`npm run db:seed` or `npm run db:reset`). Full request fixtures (`NX-000001`…) arrive in Iteration 5.
+**When it is in the database:** Iteration 2 seeds **users and roles**. Iteration 3 also seeds **categories**. Full request fixtures (`NX-000001`…) arrive in Iteration 5.
 
 Base URL: [http://localhost:3000](http://localhost:3000)
 
@@ -411,10 +411,9 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 
 ## What is not here yet
 
-- Customer create / list data (Iteration 3)
 - Agent queue / status changes (Iteration 4)
-- Request seed fixtures + REST `/api/requests` (Iteration 5)
-- Playwright create / isolation specs (after Iteration 3 works by hand)
+- Request seed fixtures `NX-000001`… (Iteration 5)
+- Playwright create / isolation specs (I3 product is green by hand; you add them)
 
 ## Docs
 

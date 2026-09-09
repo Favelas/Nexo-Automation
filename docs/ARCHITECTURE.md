@@ -40,7 +40,7 @@ There is no separate API server. There is no Supabase. There is no object storag
 5. Prisma writes `requests` and `request_status_history` together where required.
 6. UI navigates; APIs return JSON status codes.
 
-Iteration 2 adds Auth.js, seed users, and route protection. Request handlers and domain functions come in later iterations.
+Iteration 2 adds Auth.js, seed users, and route protection. Iteration 3 adds domain functions plus customer create / list / detail (`GET`/`POST /api/requests`, `GET /api/categories`). Agent status `PATCH` and seed request rows wait for later iterations.
 
 ## UI vs API oracles
 
@@ -60,7 +60,7 @@ Iteration 2 adds Auth.js, seed users, and route protection. Request handlers and
 | `/customer/dashboard`          | Customer                       |
 | `/customer/requests`           | Customer                       |
 | `/customer/requests/new`       | Customer                       |
-| `/customer/requests/:publicId` | Customer (own only, later)     |
+| `/customer/requests/:publicId` | Customer (own only)            |
 | `/agent/dashboard`             | Agent                          |
 | `/agent/requests`              | Agent                          |
 | `/agent/requests/:publicId`    | Agent + status control (later) |
@@ -73,7 +73,7 @@ Iteration 2 adds Auth.js, seed users, and route protection. Request handlers and
 ```
 app/                 pages and route handlers
 components/          semantic UI
-lib/domain/          rules (from Iteration 3+)
+lib/domain/          rules (from Iteration 3)
 lib/prisma.ts        Prisma client singleton
 auth.ts / auth.config.ts  Auth.js (Iteration 2)
 proxy.ts             Route protection (Next.js 16)

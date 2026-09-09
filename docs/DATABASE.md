@@ -3,7 +3,7 @@
 **What this is:** Postgres / Prisma schema — tables, enums, public ids, seed order, SQLite fallback.  
 **Not this:** HTTP routes ([API.md](./API.md)) or how to boot Docker (root [README.md](../README.md)).
 
-PostgreSQL is the default. Prisma 6 owns the schema. Tables may be empty until Iteration 5 seed.
+Tables may be empty of **requests** until Iteration 5 seed. Iteration 3 seeds **categories** so the create form has options.
 
 ## Engine
 
@@ -81,14 +81,14 @@ SELECT setval('request_public_id_seq', <highest_seeded_n>);
 
 No `DELETE` of requests in MVP. History is append-only.
 
-## Seed sequence (Iteration 5, not now)
+## Seed sequence
 
 1. Roles
 2. Users (password hashes from `TEST_USER_PASSWORD`)
-3. Categories
-4. Requests with explicit `public_id` values (`NX-000001` …)
-5. Matching history rows
-6. `setval` on `request_public_id_seq`
+3. Categories (Iteration 3 — Billing, Access, Technical)
+4. Requests with explicit `public_id` values (`NX-000001` …) — Iteration 5
+5. Matching history rows — Iteration 5
+6. `setval` on `request_public_id_seq` — Iteration 5
 
 Do not have every test mutate `NX-000001`. Seed is for identity and reads. Create-per-test for writes.
 

@@ -1,20 +1,30 @@
 import { AppShell } from "@/components/AppShell";
-import { EmptyRequestTable } from "@/components/EmptyRequestTable";
 import { IterationBanner } from "@/components/IterationBanner";
+import { RequestTable } from "@/components/RequestTable";
+import { getSessionUser } from "@/lib/auth/session";
+import { listVisibleRequests } from "@/lib/domain/requests";
 import { loc, testId } from "@/lib/test-ids";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "My requests",
 };
 
-export default function CustomerRequestsPage() {
+export default async function CustomerRequestsPage() {
+  const user = await getSessionUser();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const requests = await listVisibleRequests(user);
+
   return (
     <AppShell>
       <div {...loc(testId.pageCustomerRequests)}>
         <IterationBanner>
-          Iteration 1 placeholder. Your requests will list here in Iteration 3.
+          Iteration 3: this list is your requests only.
         </IterationBanner>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <h1
@@ -31,7 +41,12 @@ export default function CustomerRequestsPage() {
             New request
           </Link>
         </div>
-        <EmptyRequestTable caption="Your requests" />
+        <RequestTable
+          caption="Your requests"
+          requests={requests}
+          emptyMessage="No requests yet."
+          detailHref={(publicId) => `/customer/requests/${publicId}`}
+        />
       </div>
     </AppShell>
   );

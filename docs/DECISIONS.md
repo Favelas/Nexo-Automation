@@ -27,3 +27,10 @@ This file records architecture choices for Nexo. Do not leave stale decisions on
 - Env pattern: `.env.example` → `.env.local` (Next.js). Prisma CLI scripts load `.env.local` via `dotenv-cli`.
 - Seed: roles + three users (`npm run db:seed`). Request fixtures wait for Iteration 5.
 - Login UI posts to `POST /api/auth/login`. Auth.js still owns `/api/auth/[...nextauth]`.
+
+## Iteration 3 follow-through
+
+- Domain functions in `lib/domain/` own create / list / get. Isolation: customer reading another customer’s id is **not found** (UI) / API **404**.
+- UI create posts to `POST /api/requests`. List and detail pages read the same domain functions.
+- Seed adds categories (Billing, Access, Technical). Request rows still wait for Iteration 5.
+- `PATCH /api/requests/:publicId` waits for Iteration 4.

@@ -53,6 +53,20 @@ async function main() {
       },
     });
   }
+
+  const categories = [
+    { name: "Billing", slug: "billing" },
+    { name: "Access", slug: "access" },
+    { name: "Technical", slug: "technical" },
+  ] as const;
+
+  for (const category of categories) {
+    await prisma.category.upsert({
+      where: { slug: category.slug },
+      create: category,
+      update: { name: category.name },
+    });
+  }
 }
 
 main()

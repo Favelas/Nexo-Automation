@@ -37,11 +37,11 @@ Do not call a feature automation-ready until these pass **manually**.
 
 ### Customer
 
-- [ ] Create request with category, title, description
-- [ ] Empty required fields show field-level messages (no submit success)
-- [ ] New request appears in **My requests** with public id `NX-######`
-- [ ] Detail URL uses that public id
-- [ ] Customer cannot see another customer’s request (UI: no row / not found; API: `404`)
+- [x] Create request with category, title, description
+- [x] Empty required fields show field-level messages (no submit success)
+- [x] New request appears in **My requests** with public id `NX-######`
+- [x] Detail URL uses that public id
+- [x] Customer cannot see another customer’s request (UI: no row / not found; API: `404`)
 
 ### Agent
 
@@ -75,7 +75,7 @@ Manual login checklist in the Auth section above (except request features). Seed
 
 ### Iteration 3
 
-Customer happy path: create → list → detail.
+Customer happy path: create → list → detail. Categories are seeded; request rows `NX-000001`… still wait for Iteration 5.
 
 ### Iteration 4
 

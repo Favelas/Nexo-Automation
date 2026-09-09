@@ -5,7 +5,7 @@
 
 All routes live under `/api/*`. JSON only. No DELETE in MVP.
 
-Auth routes below are implemented in Iteration 2. Request handlers wait for Iteration 5.
+Auth routes below are implemented in Iteration 2. Customer request `GET`/`POST` landed in Iteration 3. Agent `PATCH` waits for Iteration 4. Seed request rows wait for Iteration 5.
 
 ## Envelope
 
@@ -71,7 +71,7 @@ Body:
 }
 ```
 
-Creates `SUBMITTED`, assigns `public_id`, writes history `null → SUBMITTED`.
+Creates `SUBMITTED`, assigns `public_id`, writes history `null → SUBMITTED`. Empty title / category / description → `400` `VALIDATION_ERROR` (field messages on the form).
 
 ### PATCH `/api/requests/:publicId`
 

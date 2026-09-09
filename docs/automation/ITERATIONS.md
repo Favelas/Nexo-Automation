@@ -15,12 +15,12 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 
 | Track | Stop | Next |
 | ----- | ---- | ---- |
-| Product | **Iteration 2 done** — Auth.js, seed users, `proxy.ts`, dashboards | **Tomorrow:** I3 create → My requests → detail `NX-######` |
-| Automation | **Levels 0–4** — smoke + `e2e/auth/` + `LoginPage` | Pause. Specs after I3 works by hand |
+| Product | **Iteration 3 done** — customer create / list / detail, categories seeded | **Next:** I4 agent queue / status |
+| Automation | **Levels 0–4** — smoke + `e2e/auth/` + `LoginPage` | I3 specs (create / list / detail). No fixtures yet |
 
 ```
-Product:     [I1 done] → [I2 done] → I3 Customer → I4 Agent → I5 API/seed → STOP product
-Automation:  [L0–4 done] → (pause) → I3 specs + next POM / later fixtures
+Product:     [I1 done] → [I2 done] → [I3 done] → I4 Agent → I5 API/seed → STOP product
+Automation:  [L0–4 done] → I3 specs (unblocked)
 ```
 
 ## Status
@@ -31,7 +31,7 @@ Tick when true. Do not tick a suite row before the matching product gate is manu
 | -- | ------- | ----------- | ----------------------- | ------- | ----- |
 | I1 | Skeleton, Postgres, Prisma, placeholder pages, login form **does not authenticate** | App boots; `/login` labeled; page map renders | `e2e/smoke/login-form.spec.ts` — form visible | [x] | [x] |
 | I2 | Auth.js Credentials, 3 seed users, middleware, real dashboards | Auth checklist below | Valid A + agent login; invalid + `role="alert"`; logout; anonymous → `/login`; wrong-role redirect | [x] | [x] |
-| I3 | Customer create / list / detail | Create → My requests → detail `NX-######` | Create validation; happy create; A does not see B’s id in the table | [ ] | [ ] |
+| I3 | Customer create / list / detail | Create → My requests → detail `NX-######` | Create validation; happy create; A does not see B’s id in the table | [x] | [ ] |
 | I4 | Agent queue / detail / status | Queue has two customers; 3 statuses; A sees the new status | Agent sees both customers; status change visible to A | [ ] | [ ] |
 | I5 | Seed, `db:reset`, API matches UI | Full quality gate in `PRODUCT_REQUIREMENTS.md` | API isolation/RBAC; `storageState`; one journey; then CI | [ ] | [ ] |
 
@@ -82,7 +82,6 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 
 ## What not to do at this stop
 
-- Do not write I3 specs until create → list → detail works by hand.
 - Do not add more login tests.
 - Do not add `storageState` / custom fixtures yet.
 - Do not treat `/playwright/.auth/` in `.gitignore` as the Nexo path. Session files (later) go under `e2e/.auth/` (already gitignored).

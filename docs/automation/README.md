@@ -31,13 +31,12 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth specs + `LoginPage` are in `e2e/auth/` and `e2e/pages/`. **Do not add create / isolation / status specs until product Iteration 3+ works by hand** ([ITERATIONS.md](./ITERATIONS.md)).
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth specs + `LoginPage` are in `e2e/auth/` and `e2e/pages/`. Product I3 is green by hand. **I3 specs are unblocked** ([ITERATIONS.md](./ITERATIONS.md)). No fixtures yet.
 
-| Already automated | Wait for the matching product gate |
-| ----------------- | ---------------------------------- |
-| `/login` form + labels | Create request, list, detail (I3) |
-| Valid / invalid login, logout, redirects | Agent queue / status (I4) |
-| | API 401/403/404, seed rows (I5) |
+| Already automated | You can add now | Wait |
+| ----------------- | --------------- | ---- |
+| `/login` form + labels | Create / list / detail specs | Agent queue / status (I4) |
+| Valid / invalid login, logout, redirects | | API 401/403/404, seed rows (I5) |
 
 ## First 90 minutes (after you have `npm run dev` working)
 

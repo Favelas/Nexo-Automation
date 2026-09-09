@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** Steps 1–10 done. Suite slice is closed. Tomorrow is **product Iteration 3** (create → list → detail), not more login tests. See [Tomorrow](#tomorrow) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+**Current stop:** Product I3 manual gate is green. You may add I3 specs (create / list / detail). No fixtures yet. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -148,18 +148,18 @@ File: `login.page.ts` (class `LoginPage`). No fixture yet — fixture is “give
 
 - [x] POM wired; auth tests still green
 
-## Tomorrow
+## Today
 
-Product I3 only. Manual first; specs after it works by hand.
+Product I3 is green by hand. Next sitting is **your** I3 specs.
 
-- [ ] Create request (category, title, description)
-- [ ] New row in **My requests** with `NX-######`
-- [ ] Open that detail
-- [ ] Do not write I3 specs, fixtures, or more login
+- [x] Create request (category, title, description)
+- [x] New row in **My requests** with `NX-######`
+- [x] Open that detail
+- [ ] I3 specs (you write them). No fixtures, no more login
 
 ## Step 11 — Pause
 
-Suite slice is closed until I3 works in the browser.
+Login slice stays closed. I3 specs are unblocked.
 
 ---
 

@@ -109,7 +109,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
         {...loc(testId.appFooter)}
         className="border-t border-slate-200 bg-white px-4 py-3 text-center text-sm text-slate-600"
       >
-        Nexo — internal request tracker (lab). Iteration 2 auth.
+        Nexo — internal request tracker (lab). Iteration 3 create / list / detail.
       </footer>
     </div>
   );
