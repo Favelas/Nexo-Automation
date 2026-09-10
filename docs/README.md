@@ -7,7 +7,7 @@ Two folders only. Read the **What this is** line at the top of a file if you are
 | **This folder** | The **Nexo app**: what it is, what to build, schema, API, decisions |
 | **[automation/](./automation/README.md)** | **Playwright**: how to grow the suite, trackers, curriculum, exercises |
 
-The root [README.md](../README.md) is how to **run** the app (boot, Git, seed accounts, locator ids). It is not a second product spec.
+The root [README.md](../README.md) is how to **run** the app (boot, Git, seed accounts, locator ids). Start/stop commands and “is it up?” checks live in [README.md — Boot](../README.md#boot). It is not a second product spec.
 
 ## Product (this folder)
 

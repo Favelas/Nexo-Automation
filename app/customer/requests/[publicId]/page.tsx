@@ -41,15 +41,21 @@ export default async function CustomerRequestDetailPage({
         <dl className="mt-6 grid max-w-xl gap-4 text-slate-800">
           <div>
             <dt className="text-sm font-medium text-slate-600">Title</dt>
-            <dd className="mt-1">{request.title}</dd>
+            <dd {...loc(testId.requestTitle)} className="mt-1">
+              {request.title}
+            </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-slate-600">Category</dt>
-            <dd className="mt-1">{request.category.name}</dd>
+            <dd {...loc(testId.requestCategory)} className="mt-1">
+              {request.category.name}
+            </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-slate-600">Description</dt>
-            <dd className="mt-1 whitespace-pre-wrap">{request.description}</dd>
+            <dd {...loc(testId.requestDescription)} className="mt-1 whitespace-pre-wrap">
+              {request.description}
+            </dd>
           </div>
           <div>
             <dt className="text-sm font-medium text-slate-600">Status</dt>

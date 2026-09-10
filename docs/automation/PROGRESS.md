@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** Product I3 manual gate is green. You may add I3 specs (create / list / detail). No fixtures yet. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+**Current stop:** I3 suite is green. Next is **product I4** (agent queue / status). No fixtures yet. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -150,16 +150,16 @@ File: `login.page.ts` (class `LoginPage`). No fixture yet — fixture is “give
 
 ## Today
 
-Product I3 is green by hand. Next sitting is **your** I3 specs.
+I3 specs are green (`e2e/customer/requests.spec.ts`, 4 passed).
 
 - [x] Create request (category, title, description)
 - [x] New row in **My requests** with `NX-######`
 - [x] Open that detail
-- [ ] I3 specs (you write them). No fixtures, no more login
+- [x] I3 specs (navigate, happy create + detail, empty fields, isolation). No fixtures
 
 ## Step 11 — Pause
 
-Login slice stays closed. I3 specs are unblocked.
+Login slice stays closed. I3 suite stays closed. Next sitting is **product I4**, not Level 5.
 
 ---
 

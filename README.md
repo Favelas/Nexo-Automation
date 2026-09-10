@@ -19,7 +19,7 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 
 | If you want to…                            | Go to                                                                                                                                |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Run the app                                | [Boot](#boot-iteration-1) below                                                                                                      |
+| Run the app                                | [Boot](#boot) below                                                                                                                  |
 | Understand the product                     | [`docs/README.md`](./docs/README.md), then [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)                                          |
 | Manual accounts, seed ids, isolation rules | [Test data](#test-data-manual-kit)                                                                                                   |
 | Locator `data-testid` list                 | [Locator IDs](#locator-ids)                                                                                                          |
@@ -31,7 +31,7 @@ Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMA
 
 ## Current stop: Iteration 3
 
-Playwright still has smoke + I2 auth specs. I3 product is green by hand — create / list / detail specs are unblocked.
+Playwright: smoke + I2 auth + I3 customer specs (create / list / detail / isolation). Next product work is Iteration 4 (agent queue / status).
 
 ## Clone onto your machine
 
@@ -82,13 +82,20 @@ git checkout main
 git pull origin main
 ```
 
-## Boot (Iteration 2)
+## Boot
 
-Needs: Node.js 20+, npm, Docker Desktop (Postgres). **Installed is not enough** — Docker Desktop must be **running** (whale icon ready) before any `docker` command. If the engine is off, `docker compose` fails with `error during connect` / `dockerDesktopLinuxEngine`.
+Needs: Node.js 20+, npm, Docker Desktop (Postgres). **Installed is not enough** — Docker Desktop must be **running** (whale icon ready) before any `docker` command.
 
-Login needs Postgres + seed users. If the database is down, pages may still render but sign-in fails.
+From Iteration 2 on, login **and** dashboards need Postgres. `/login` can still render if the database is down. A leftover cookie can even look like a session. Then `/customer/dashboard` and `/customer/requests` return **500** (`Can't reach database server at localhost:5432`). Playwright needs **both** Next and Postgres; it does not start Docker for you.
 
 Copy `.env.example` as-is for local lab work. `TEST_USER_PASSWORD` is the shared seed password below (`Password123!`). `AUTH_SECRET` must be a long random string (`openssl rand -base64 32`). After Postgres is up: `npm run db:deploy` then `npm run db:seed`. Do not run bare `npx prisma …` — Prisma will not see `.env.local`.
+
+Two processes, two ports:
+
+| Process | How it runs | Port | Keep it open? |
+| ------- | ----------- | ---- | ------------- |
+| Postgres | `docker compose up -d` (background) | **5432** | No — Docker keeps it until `docker compose down` or you quit Docker Desktop |
+| Next.js | `npm run dev` (this terminal) | **3000** (or the `Local:` port) | Yes — `Ctrl+C` stops the app |
 
 ### Check the tools
 
@@ -98,6 +105,8 @@ node -v          # expect v20 or higher
 npm -v
 docker info      # must print Server Version — if this errors, open Docker Desktop and wait
 ```
+
+`docker info` must succeed **before** `docker compose`. If it errors with `dockerDesktopLinuxEngine` / `The system cannot find the file specified`, the engine is off — wait until the whale icon is idle/running, then retry.
 
 ### First time on this machine
 
@@ -110,16 +119,19 @@ Copy-Item .env.example .env.local
 # 2. Postgres on localhost:5432 (needs Docker Desktop running)
 docker compose up -d
 
-# 3. App dependencies (skip later if node_modules already exists)
+# 3. Confirm Postgres is healthy (Status must include healthy, not only Up)
+docker compose ps
+
+# 4. App dependencies (skip later if node_modules already exists)
 npm install
 
-# 4. Apply migrations (needs Postgres + .env.local)
+# 5. Apply migrations (needs Postgres + .env.local)
 npm run db:deploy
 
-# 5. Seed roles + three users (Iteration 2)
+# 6. Seed roles, three users, and categories (Billing / Access / Technical)
 npm run db:seed
 
-# 6. Dev server — leave this terminal open
+# 7. Dev server — leave this terminal open
 npm run dev
 ```
 
@@ -131,37 +143,54 @@ If Next.js prints **Port 3000 is in use … using available port 3001**, that is
 
 ```powershell
 cd C:\Users\maryf\Documents\Nexo-Automation
-# Docker Desktop must already be running
+
+docker info              # fail here → open Docker Desktop and wait
 docker compose up -d
-npm run dev
+docker compose ps        # postgres = Up (healthy)
+docker compose exec postgres pg_isready -U nexo -d nexo   # expect: accepting connections
+
+npm run dev              # wait for ✓ Ready and Local:
 ```
 
-Re-run `Copy-Item .env.example .env.local` only if `.env.local` is missing. Re-run `npm install` only if `node_modules` is missing or `package.json` changed.
+Then [Verify boot](#verify-boot) in the browser. Re-run `Copy-Item .env.example .env.local` only if `.env.local` is missing. Re-run `npm install` only if `node_modules` is missing or `package.json` changed. Re-run `db:deploy` / `db:seed` only after a schema change or `docker compose down -v` (volume wiped).
 
 ### What each command does
 
 | Command | What it does |
 | ------- | ------------ |
+| `docker info` | Talks to the Docker engine. Must work before any `compose` command |
 | `Copy-Item .env.example .env.local` | Creates the local env file. Prisma and Next read `DATABASE_URL=postgresql://nexo:nexo@localhost:5432/nexo?schema=public` |
 | `docker compose up -d` | Starts Postgres 16 (`nexo` / `nexo` / db `nexo`) in the background on port **5432** |
+| `docker compose ps` | Shows the compose service. Want **Up (healthy)** |
+| `docker compose exec postgres pg_isready -U nexo -d nexo` | Asks Postgres if it accepts connections |
 | `npm install` | Installs Next.js, Prisma, and the rest into `node_modules` |
 | `npm run db:deploy` | Applies migrations using `.env.local` |
-| `npm run db:seed` | Upserts CUSTOMER/AGENT roles and the three seed users |
+| `npm run db:seed` | Upserts roles, the three seed users, and categories |
 | `npm run dev` | Next.js 16 dev server. Default URL **http://localhost:3000**. Stops when you close the terminal or press `Ctrl+C` |
+| `docker compose down` | Stops Postgres. Volume `nexo_pgdata` stays; users/requests are kept |
+| `docker compose down -v` | Stops Postgres **and** deletes the volume. Next boot needs `db:deploy` + `db:seed` again |
 
-### How you know it is up
+### Verify boot
+
+Run these **in order**. Login alone is not enough.
+
+```powershell
+docker info
+docker compose ps
+docker compose exec postgres pg_isready -U nexo -d nexo
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+```
 
 | Check | Expect |
 | ----- | ------ |
+| `docker info` | `Server Version` (no pipe / `dockerDesktopLinuxEngine` error) |
+| `docker compose ps` | Service `postgres` is **Up** and **(healthy)** |
+| `pg_isready` | `accepting connections` |
 | `npm run dev` terminal | `✓ Ready` and a `Local:` line |
 | Browser | [http://localhost:3000/login](http://localhost:3000/login) (or the `Local:` port) shows email, password, and **Log in** |
-| `docker compose ps` | Service `postgres` is **Up** (healthy) |
+| After login as Ana | Lands on `/customer/dashboard` **without** a 500 / Prisma error |
+| My requests / New request | Pages load (list may be empty; form has category options) |
 | `http://localhost:3000` while Next printed `:3001` | That URL is **not** this app |
-
-```powershell
-docker compose ps
-docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-```
 
 Nexo wants **3000** (Next.js) and **5432** (Postgres). If another stack holds them, stop it or use the port Next.js chose.
 
@@ -175,19 +204,22 @@ Nexo wants **3000** (Next.js) and **5432** (Postgres). If another stack holds th
 docker compose down
 ```
 
+Quitting Docker Desktop also stops Postgres. Next session: start Docker Desktop, then `docker compose up -d` again.
+
 ### If it looks down
 
 | Symptom | Cause | Fix |
 | ------- | ----- | --- |
 | Browser timeout / connection reset on `:3000` | `npm run dev` is not running, **or** another process owns 3000 and is crashing | Start `npm run dev`. Read the `Local:` line. Run `docker ps` and stop the other container if you need `:3000` |
 | Next.js: `Port 3000 is in use … using available port 3001` | Something else bound 3000 | Open `:3001`, or free 3000 (`docker stop <name>` or stop the other Node process) and restart `npm run dev` |
-| `error during connect` / `open //./pipe/dockerDesktopLinuxEngine` | Docker Desktop installed but the engine is off | Open **Docker Desktop**, wait until it is running, then `docker compose up -d` |
+| `/login` OK, `/customer/dashboard` **500**, terminal `Can't reach database server at localhost:5432` | Next is up; Postgres is not | Open Docker Desktop, wait, `docker compose up -d`, then `docker compose ps` until **healthy**. Reload the dashboard |
+| `error during connect` / `open //./pipe/dockerDesktopLinuxEngine` / `The system cannot find the file specified` | Docker Desktop installed but the engine is off | Open **Docker Desktop**, wait until it is running, then `docker info`, then `docker compose up -d` |
+| `unable to get image 'postgres:16-alpine'` with the pipe error | Same as above — Compose never reached Docker | Same fix. Do not retry compose until `docker info` works |
 | `Bind for 0.0.0.0:5432 failed: port is already allocated` | Another Postgres already uses 5432 | `docker ps` then `docker stop <name>`. Retry `docker compose up -d` |
 | `P1000: Authentication failed` against `nexo` | Whatever is on 5432 is **not** the Nexo database | Same as the 5432 conflict. Credentials in `.env.local` are `nexo` / `nexo` |
 | `next` is not recognized / cannot find module | `node_modules` missing | `npm install` |
 | Prisma cannot find env / wrong database | `.env.local` missing | `Copy-Item .env.example .env.local` |
-
-Iteration 1 UI still renders if Postgres is down. You only need a healthy `docker compose up -d` before migrate, seed, or (later) real login.
+| Empty category dropdown / login “invalid” after a volume wipe | Schema or seed missing | `npm run db:deploy` then `npm run db:seed` |
 
 ### npm scripts
 
@@ -200,7 +232,7 @@ Iteration 1 UI still renders if Postgres is down. You only need a healthy `docke
 | `npm run db:generate`         | Prisma Client                                     |
 | `npm run db:migrate`          | `prisma migrate dev` using `.env.local`           |
 | `npm run db:reset`            | Drop, migrate, seed users (requests arrive in Iteration 5) |
-| `npm run db:seed`             | Upsert roles + the three seed users               |
+| `npm run db:seed`             | Upsert roles, the three seed users, and categories |
 | `npm run db:validate`         | Validate `prisma/schema.prisma`                   |
 
 ### Page map
@@ -400,6 +432,7 @@ await page.getByTestId("login-submit").click();
 | `request-table`                                        | Requests table                                                        |
 | `request-table-empty`                                  | Empty-table message                                                   |
 | `request-public-id`                                    | Public id on detail (`NX-000001`)                                     |
+| `request-title` / `request-category` / `request-description` | Detail field values                                              |
 | `request-status`                                       | Status text (customer) or status `<select>` (agent, disabled for now) |
 | `create-request-form`                                  | Create form                                                           |
 | `field-title` / `field-category` / `field-description` | Create fields                                                         |
@@ -413,7 +446,6 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 
 - Agent queue / status changes (Iteration 4)
 - Request seed fixtures `NX-000001`… (Iteration 5)
-- Playwright create / isolation specs (I3 product is green by hand; you add them)
 
 ## Docs
 

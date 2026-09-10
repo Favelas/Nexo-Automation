@@ -30,7 +30,7 @@ export default defineConfig({
   use: {
     testIdAttribute: 'data-testid',
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:3001',
+    baseURL: 'http://localhost:3000',
     actionTimeout: 10_000,        // 10s por click/fill
     navigationTimeout: 15_000,    // 15s por goto
     screenshot: 'only-on-failure',
@@ -70,7 +70,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
   command: 'npm run dev',
-  url: 'http://localhost:3001',
+  url: 'http://localhost:3000',
   reuseExistingServer: !process.env.CI,
   timeout: 120_000,
    },

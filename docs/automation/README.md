@@ -14,6 +14,7 @@ This folder does **not** contain test code. Specs live in `e2e/`.
 | [AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md) | Skill levels — **definition of done** |
 | [AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md) | Same levels — **curriculum** (concept → practice) |
 | [QA_CHALLENGES.md](./QA_CHALLENGES.md) | Exercises without spoilers |
+| [FEEDBACK.md](./FEEDBACK.md) | I3 recap: when to use `const`, how `publicId` is read |
 | [../../README.md](../../README.md) | App boot, seed accounts, locator `data-testid` list |
 
 ## Where should the suite live?
@@ -31,12 +32,13 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth specs + `LoginPage` are in `e2e/auth/` and `e2e/pages/`. Product I3 is green by hand. **I3 specs are unblocked** ([ITERATIONS.md](./ITERATIONS.md)). No fixtures yet.
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. **Next is product I4** ([ITERATIONS.md](./ITERATIONS.md)). No fixtures yet.
 
 | Already automated | You can add now | Wait |
 | ----------------- | --------------- | ---- |
-| `/login` form + labels | Create / list / detail specs | Agent queue / status (I4) |
+| `/login` form + labels | Nothing until I4 ships | Agent queue / status (I4) |
 | Valid / invalid login, logout, redirects | | API 401/403/404, seed rows (I5) |
+| Create / list / detail / isolation | | |
 
 ## First 90 minutes (after you have `npm run dev` working)
 
