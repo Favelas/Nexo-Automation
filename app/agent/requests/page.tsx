@@ -1,19 +1,29 @@
 import { AppShell } from "@/components/AppShell";
-import { EmptyRequestTable } from "@/components/EmptyRequestTable";
 import { IterationBanner } from "@/components/IterationBanner";
+import { RequestTable } from "@/components/RequestTable";
+import { getSessionUser } from "@/lib/auth/session";
+import { listVisibleRequests } from "@/lib/domain/requests";
 import { loc, testId } from "@/lib/test-ids";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Request queue",
 };
 
-export default function AgentRequestsPage() {
+export default async function AgentRequestsPage() {
+  const user = await getSessionUser();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const requests = await listVisibleRequests(user);
+
   return (
     <AppShell>
       <div {...loc(testId.pageAgentRequests)}>
         <IterationBanner>
-          Iteration 1 placeholder. The agent queue lands in Iteration 4.
+          Iteration 4: this queue lists every customer’s requests.
         </IterationBanner>
         <h1
           {...loc(testId.pageHeading)}
@@ -21,7 +31,13 @@ export default function AgentRequestsPage() {
         >
           Request queue
         </h1>
-        <EmptyRequestTable caption="Request queue" />
+        <RequestTable
+          caption="Request queue"
+          requests={requests}
+          emptyMessage="No requests in the queue."
+          detailHref={(publicId) => `/agent/requests/${publicId}`}
+          showCustomer
+        />
       </div>
     </AppShell>
   );

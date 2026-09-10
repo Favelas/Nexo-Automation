@@ -29,9 +29,9 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 
 Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
-## Current stop: Iteration 3
+## Current stop: Iteration 4 done
 
-Playwright: smoke + I2 auth + I3 customer specs (create / list / detail / isolation). Next product work is Iteration 4 (agent queue / status).
+Agent queue / status is green by hand. Playwright still has smoke + I2 + I3 only. I4 specs wait for you. Next product work is Iteration 5 (seed / reset / API).
 
 ## Clone onto your machine
 
@@ -444,8 +444,8 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 
 ## What is not here yet
 
-- Agent queue / status changes (Iteration 4)
 - Request seed fixtures `NX-000001`… (Iteration 5)
+- Playwright agent queue / status specs (I4 product is green by hand; you add them)
 
 ## Docs
 

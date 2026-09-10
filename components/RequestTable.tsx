@@ -11,11 +11,13 @@ export function RequestTable({
   requests,
   emptyMessage,
   detailHref,
+  showCustomer = false,
 }: {
   caption: string;
   requests: RequestRecord[];
   emptyMessage: string;
   detailHref: (publicId: string) => string;
+  showCustomer?: boolean;
 }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
@@ -29,6 +31,11 @@ export function RequestTable({
             <th scope="col" className="px-4 py-3 font-semibold">
               Title
             </th>
+            {showCustomer ? (
+              <th scope="col" className="px-4 py-3 font-semibold">
+                Customer
+              </th>
+            ) : null}
             <th scope="col" className="px-4 py-3 font-semibold">
               Status
             </th>
@@ -42,7 +49,7 @@ export function RequestTable({
             <tr>
               <td
                 {...loc(testId.requestTableEmpty)}
-                colSpan={4}
+                colSpan={showCustomer ? 5 : 4}
                 className="px-4 py-6 text-slate-600"
               >
                 {emptyMessage}
@@ -60,6 +67,9 @@ export function RequestTable({
                   </Link>
                 </td>
                 <td className="px-4 py-3">{request.title}</td>
+                {showCustomer ? (
+                  <td className="px-4 py-3">{request.customer.name}</td>
+                ) : null}
                 <td className="px-4 py-3">{statusLabel(request.status)}</td>
                 <td className="px-4 py-3">{createdOn(request.createdAt)}</td>
               </tr>

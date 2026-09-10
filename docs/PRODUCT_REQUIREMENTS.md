@@ -45,10 +45,10 @@ Do not call a feature automation-ready until these pass **manually**.
 
 ### Agent
 
-- [ ] Queue lists requests from more than one customer (seed)
-- [ ] Status control offers only the three MVP statuses
-- [ ] Status change is visible on detail and in the list
-- [ ] Agent cannot create a request (UI: no create action; API: `403`)
+- [x] Queue lists requests from more than one customer (seed)
+- [x] Status control offers only the three MVP statuses
+- [x] Status change is visible on detail and in the list
+- [x] Agent cannot create a request (UI: no create action; API: `403`)
 
 ### Platform
 
@@ -79,7 +79,7 @@ Customer happy path: create → list → detail. Categories are seeded; request 
 
 ### Iteration 4
 
-Agent queue, detail, status; customer can see the new status on their own request.
+Agent queue, detail, status; customer can see the new status on their own request. Seed request rows still wait for Iteration 5 — use requests created in I3 to prove two customers in the queue.
 
 ### Iteration 5
 

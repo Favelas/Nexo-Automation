@@ -33,4 +33,10 @@ This file records architecture choices for Nexo. Do not leave stale decisions on
 - Domain functions in `lib/domain/` own create / list / get. Isolation: customer reading another customer’s id is **not found** (UI) / API **404**.
 - UI create posts to `POST /api/requests`. List and detail pages read the same domain functions.
 - Seed adds categories (Billing, Access, Technical). Request rows still wait for Iteration 5.
-- `PATCH /api/requests/:publicId` waits for Iteration 4.
+- `PATCH /api/requests/:publicId` is Iteration 4 (agent status only).
+
+## Iteration 4 follow-through
+
+- Domain `updateRequestStatus` owns the PATCH rule: agent only, three statuses, history row on change, customer always `403`.
+- Agent queue lists every customer. Detail reuses the same fields as the customer page plus a live status `<select>`.
+- Request seed rows still wait for Iteration 5; the queue is proven with requests created in I3.

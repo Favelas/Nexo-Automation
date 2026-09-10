@@ -1,26 +1,23 @@
 import type { SessionUser } from "@/lib/auth/session";
 import { DomainError, ValidationError } from "@/lib/domain/errors";
+import {
+  isRequestStatus,
+  type RequestStatusName,
+} from "@/lib/domain/status";
 import { prisma } from "@/lib/prisma";
-import type { Request, RequestStatus } from "@prisma/client";
+import type { Request } from "@prisma/client";
+
+export { statusLabel } from "@/lib/domain/status";
 
 export type RequestRecord = Request & {
   category: { id: string; name: string; slug: string };
+  customer: { id: string; name: string; email: string };
 };
 
 const requestInclude = {
   category: { select: { id: true, name: true, slug: true } },
+  customer: { select: { id: true, name: true, email: true } },
 } as const;
-
-export function statusLabel(status: RequestStatus) {
-  switch (status) {
-    case "SUBMITTED":
-      return "Submitted";
-    case "IN_PROGRESS":
-      return "In progress";
-    case "RESOLVED":
-      return "Resolved";
-  }
-}
 
 function isOwn(request: Request, user: SessionUser) {
   return request.customerId === user.id;
@@ -115,6 +112,59 @@ export async function createCustomerRequest(
         requestId: request.id,
         fromStatus: null,
         toStatus: "SUBMITTED",
+        actorId: user.id,
+      },
+    });
+
+    return request;
+  });
+}
+
+export async function updateRequestStatus(
+  user: SessionUser,
+  publicId: string,
+  status: string,
+): Promise<RequestRecord> {
+  if (user.role !== "AGENT") {
+    throw new DomainError(
+      403,
+      "FORBIDDEN",
+      "Customers cannot change request status.",
+    );
+  }
+
+  if (!isRequestStatus(status)) {
+    throw new DomainError(400, "VALIDATION_ERROR", "Status is not valid.");
+  }
+
+  const nextStatus: RequestStatusName = status;
+  const existing = await prisma.request.findUnique({
+    where: { publicId },
+    include: requestInclude,
+  });
+  if (!existing) {
+    throw new DomainError(404, "NOT_FOUND", "Request not found.");
+  }
+
+  if (existing.status === nextStatus) {
+    return existing;
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const request = await tx.request.update({
+      where: { id: existing.id },
+      data: {
+        status: nextStatus,
+        assignedAgentId: user.id,
+      },
+      include: requestInclude,
+    });
+
+    await tx.requestStatusHistory.create({
+      data: {
+        requestId: request.id,
+        fromStatus: existing.status,
+        toStatus: nextStatus,
         actorId: user.id,
       },
     });

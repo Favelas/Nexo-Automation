@@ -10,8 +10,8 @@ Hard stop after Iteration 5. After each iteration: what works, what is missing, 
 | **1**           | Skeleton, Postgres, Prisma, empty pages, env example    | App boots, `/login` renders |
 | **2**           | Auth.js Credentials, seed users, middleware, dashboards | Manual login checklist      |
 | **3**           | Customer create / list / detail                         | Customer happy path         |
-| **4** (next)    | Agent queue / detail / status                           | Cross-role status visible   |
-| **5**           | Seed, reset, API parity, selective test ids             | Quality gates green         |
+| **4**           | Agent queue / detail / status                           | Cross-role status visible   |
+| **5** (next)    | Seed, reset, API parity, selective test ids             | Quality gates green         |
 | **STOP**        | You start Playwright                                    | No generated framework      |
 
 ## Iteration 1 scope (do not exceed)
@@ -24,6 +24,16 @@ Hard stop after Iteration 5. After each iteration: what works, what is missing, 
 - README how to boot
 
 **Not in Iteration 1:** real login, Auth.js, Playwright, API handlers, seed, middleware, extra features.
+
+## Iteration 4 scope (do not exceed)
+
+- Agent dashboard counts by status
+- Agent queue lists **all** customers’ requests (customer name on the row)
+- Agent detail with status `<select>`: `SUBMITTED` \| `IN_PROGRESS` \| `RESOLVED`
+- `PATCH /api/requests/:publicId` — agent only; writes history; customer → `403`
+- Customer detail already shows status; it must update after the agent saves
+
+**Not in Iteration 4:** seed `NX-000001` rows, `db:reset` fixtures, Playwright, `storageState`.
 
 ## After Iteration 1 you can automate
 
