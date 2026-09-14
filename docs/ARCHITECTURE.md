@@ -40,7 +40,7 @@ There is no separate API server. There is no Supabase. There is no object storag
 5. Prisma writes `requests` and `request_status_history` together where required.
 6. UI navigates; APIs return JSON status codes.
 
-Iteration 3 adds domain functions plus customer create / list / detail (`GET`/`POST /api/requests`, `GET /api/categories`). Iteration 4 adds agent queue / detail and `PATCH /api/requests/:publicId`. Seed request rows wait for Iteration 5.
+Iteration 3 adds domain functions plus customer create / list / detail. Iteration 4 adds agent queue / detail and `PATCH /api/requests/:publicId`. Iteration 5 seeds `NX-000001`…`NX-000003` and `db:reset`.
 
 ## UI vs API oracles
 

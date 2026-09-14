@@ -32,11 +32,16 @@ This file records architecture choices for Nexo. Do not leave stale decisions on
 
 - Domain functions in `lib/domain/` own create / list / get. Isolation: customer reading another customer’s id is **not found** (UI) / API **404**.
 - UI create posts to `POST /api/requests`. List and detail pages read the same domain functions.
-- Seed adds categories (Billing, Access, Technical). Request rows still wait for Iteration 5.
+- Seed adds categories (Billing, Access, Technical).
 - `PATCH /api/requests/:publicId` is Iteration 4 (agent status only).
 
 ## Iteration 4 follow-through
 
 - Domain `updateRequestStatus` owns the PATCH rule: agent only, three statuses, history row on change, customer always `403`.
 - Agent queue lists every customer. Detail reuses the same fields as the customer page plus a live status `<select>`.
-- Request seed rows still wait for Iteration 5; the queue is proven with requests created in I3.
+
+## Iteration 5 follow-through
+
+- Seed request rows `NX-000001`…`NX-000003` plus history and `setval` on `request_public_id_seq`.
+- Seed is the read kit. Writes still create a new `NX-`. Do not PATCH `NX-000001` in every test.
+- `npm run db:reset` restores users + those three requests. API routes already match the UI (I3/I4).

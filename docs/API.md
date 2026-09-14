@@ -5,7 +5,7 @@
 
 All routes live under `/api/*`. JSON only. No DELETE in MVP.
 
-Customer request `GET`/`POST` landed in Iteration 3. Agent `PATCH` landed in Iteration 4. Seed request rows wait for Iteration 5.
+Customer request `GET`/`POST` landed in Iteration 3. Agent `PATCH` landed in Iteration 4. Seed request rows `NX-000001`… landed in Iteration 5.
 
 ## Envelope
 

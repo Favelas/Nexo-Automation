@@ -53,9 +53,9 @@ Do not call a feature automation-ready until these pass **manually**.
 ### Platform
 
 - [ ] `npm run db:reset` restores seed users and seed requests
-- [ ] Seed passwords come from `TEST_USER_PASSWORD`
-- [ ] `/api/auth/me`, `/api/requests`, and `/api/requests/:publicId` match the UI rules
-- [ ] App runs locally with Docker Postgres; SQLite is documented fallback only
+- [x] Seed passwords come from `TEST_USER_PASSWORD`
+- [x] `/api/auth/me`, `/api/requests`, and `/api/requests/:publicId` match the UI rules
+- [x] App runs locally with Docker Postgres; SQLite is documented fallback only
 
 ## Manual checklists by iteration
 
@@ -75,11 +75,11 @@ Manual login checklist in the Auth section above (except request features). Seed
 
 ### Iteration 3
 
-Customer happy path: create → list → detail. Categories are seeded; request rows `NX-000001`… still wait for Iteration 5.
+Customer happy path: create → list → detail. Categories and request rows are seeded as of Iteration 5.
 
 ### Iteration 4
 
-Agent queue, detail, status; customer can see the new status on their own request. Seed request rows still wait for Iteration 5 — use requests created in I3 to prove two customers in the queue.
+Agent queue, detail, status; customer can see the new status on their own request.
 
 ### Iteration 5
 

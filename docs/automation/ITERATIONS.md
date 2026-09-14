@@ -22,12 +22,12 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 
 | Track | Stop | Next |
 | ----- | ---- | ---- |
-| Product | **Iteration 4 done** — agent queue / detail / status | **Next:** I5 seed / reset / API parity |
-| Automation | **I3 suite green** — create / list / detail / isolation | I4 specs unblocked. No fixtures yet |
+| Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | Run `db:reset` once, then STOP product |
+| Automation | **I4 suite green** — queue (Ana + Ben) + status visible to owner | I5 specs after I5 product. No fixtures yet |
 
 ```
 Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 API/seed → STOP product
-Automation:  [L0–4 done] → [I3 suite done] → I4 specs (unblocked)
+Automation:  [L0–4 done] → [I3 suite done] → [I4 suite done] → wait for I5 product
 ```
 
 ## Status
@@ -39,7 +39,7 @@ Tick when true. Do not tick a suite row before the matching product gate is manu
 | I1 | Skeleton, Postgres, Prisma, placeholder pages, login form **does not authenticate** | App boots; `/login` labeled; page map renders | `e2e/smoke/login-form.spec.ts` — form visible | [x] | [x] |
 | I2 | Auth.js Credentials, 3 seed users, middleware, real dashboards | Auth checklist below | Valid A + agent login; invalid + `role="alert"`; logout; anonymous → `/login`; wrong-role redirect | [x] | [x] |
 | I3 | Customer create / list / detail | Create → My requests → detail `NX-######` | Create validation; happy create; A does not see B’s id in the table | [x] | [x] |
-| I4 | Agent queue / detail / status | Queue has two customers; 3 statuses; A sees the new status | Agent sees both customers; status change visible to A | [x] | [ ] |
+| I4 | Agent queue / detail / status | Queue has two customers; 3 statuses; A sees the new status | Agent sees both customers; status change visible to A | [x] | [x] |
 | I5 | Seed, `db:reset`, API matches UI | Full quality gate in `PRODUCT_REQUIREMENTS.md` | API isolation/RBAC; `storageState`; one journey; then CI | [ ] | [ ] |
 
 Out of MVP (never in these five): admin, register, forgot password, comments, uploads, search, email.
@@ -85,13 +85,13 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 
 ## Rules that keep regression small
 
-1. **Structure** — specs only where a test exists (`e2e/smoke/`, `e2e/auth/`, `e2e/customer/`). Empty fixture files are not progress.
+1. **Structure** — specs only where a test exists (`e2e/smoke/`, `e2e/auth/`, `e2e/customer/`, `e2e/agent/`). Empty fixture files are not progress.
 2. **What to automate** — only what the current iteration guarantees by hand.
 3. **Less regression** — few tests, product oracles. Do not keep `example.spec.ts` (playwright.dev). Do not write a red dashboard spec “for later”.
 
 ## What not to do at this stop
 
-- Do not add more login or I3 customer tests.
-- I4 specs are unblocked; do not add them unless you mean to.
+- Do not add more login, I3, or I4 tests.
+- Do not add I5 specs until seed / reset is green by hand.
 - Do not add `storageState` / custom fixtures yet.
 - Do not treat `/playwright/.auth/` in `.gitignore` as the Nexo path. Session files (later) go under `e2e/.auth/` (already gitignored).

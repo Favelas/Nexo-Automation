@@ -11,7 +11,7 @@ Hard stop after Iteration 5. After each iteration: what works, what is missing, 
 | **2**           | Auth.js Credentials, seed users, middleware, dashboards | Manual login checklist      |
 | **3**           | Customer create / list / detail                         | Customer happy path         |
 | **4**           | Agent queue / detail / status                           | Cross-role status visible   |
-| **5** (next)    | Seed, reset, API parity, selective test ids             | Quality gates green         |
+| **5**           | Seed, reset, API parity, selective test ids             | Quality gates green         |
 | **STOP**        | You start Playwright                                    | No generated framework      |
 
 ## Iteration 1 scope (do not exceed)
@@ -34,6 +34,15 @@ Hard stop after Iteration 5. After each iteration: what works, what is missing, 
 - Customer detail already shows status; it must update after the agent saves
 
 **Not in Iteration 4:** seed `NX-000001` rows, `db:reset` fixtures, Playwright, `storageState`.
+
+## Iteration 5 scope (do not exceed)
+
+- Seed `NX-000001` / `NX-000002` / `NX-000003` with history from the README kit
+- `setval` so the next create is `NX-000004` (or past leftover ids)
+- `npm run db:reset` restores users + those three requests
+- No new pages or Playwright
+
+**Not in Iteration 5:** fixtures, `storageState`, CI, extra product features.
 
 ## After Iteration 1 you can automate
 

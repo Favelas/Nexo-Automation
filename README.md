@@ -29,9 +29,9 @@ It is **not** a production SaaS, not Supabase/Vercel, and **not** a pre-built te
 
 Planning / iterations: [`docs/DEVELOPMENT_ROADMAP.md`](./docs/DEVELOPMENT_ROADMAP.md).
 
-## Current stop: Iteration 4 done
+## Current stop: Iteration 5
 
-Agent queue / status is green by hand. Playwright still has smoke + I2 + I3 only. I4 specs wait for you. Next product work is Iteration 5 (seed / reset / API).
+Playwright: smoke + I2 + I3 + I4. Product work is seed request rows, `db:reset`, and API parity. No I5 specs until that gate is green.
 
 ## Clone onto your machine
 
@@ -165,7 +165,7 @@ Then [Verify boot](#verify-boot) in the browser. Re-run `Copy-Item .env.example 
 | `docker compose exec postgres pg_isready -U nexo -d nexo` | Asks Postgres if it accepts connections |
 | `npm install` | Installs Next.js, Prisma, and the rest into `node_modules` |
 | `npm run db:deploy` | Applies migrations using `.env.local` |
-| `npm run db:seed` | Upserts roles, the three seed users, and categories |
+| `npm run db:seed` | Upserts roles, users, categories, and `NX-000001`…`NX-000003` |
 | `npm run dev` | Next.js 16 dev server. Default URL **http://localhost:3000**. Stops when you close the terminal or press `Ctrl+C` |
 | `docker compose down` | Stops Postgres. Volume `nexo_pgdata` stays; users/requests are kept |
 | `docker compose down -v` | Stops Postgres **and** deletes the volume. Next boot needs `db:deploy` + `db:seed` again |
@@ -231,8 +231,8 @@ Quitting Docker Desktop also stops Postgres. Next session: start Docker Desktop,
 | `npm run format`              | Prettier                                          |
 | `npm run db:generate`         | Prisma Client                                     |
 | `npm run db:migrate`          | `prisma migrate dev` using `.env.local`           |
-| `npm run db:reset`            | Drop, migrate, seed users (requests arrive in Iteration 5) |
-| `npm run db:seed`             | Upsert roles, the three seed users, and categories |
+| `npm run db:reset`            | Drop, migrate, seed users + `NX-000001`…`NX-000003` |
+| `npm run db:seed`             | Upsert roles, users, categories, and `NX-000001`…`NX-000003` |
 | `npm run db:validate`         | Validate `prisma/schema.prisma`                   |
 
 ### Page map
@@ -256,7 +256,7 @@ Quitting Docker Desktop also stops Postgres. Next session: start Docker Desktop,
 
 This is the **seed contract**. Use these accounts, ids, and expected results for every manual pass and, later, for automation. Do not invent extra users in tests.
 
-**When it is in the database:** Iteration 2 seeds **users and roles**. Iteration 3 also seeds **categories**. Full request fixtures (`NX-000001`…) arrive in Iteration 5.
+**When it is in the database:** Iteration 2 seeds **users and roles**. Iteration 3 also seeds **categories**. Iteration 5 seeds request rows `NX-000001`…`NX-000003`.
 
 Base URL: [http://localhost:3000](http://localhost:3000)
 
@@ -433,7 +433,7 @@ await page.getByTestId("login-submit").click();
 | `request-table-empty`                                  | Empty-table message                                                   |
 | `request-public-id`                                    | Public id on detail (`NX-000001`)                                     |
 | `request-title` / `request-category` / `request-description` | Detail field values                                              |
-| `request-status`                                       | Status text (customer) or status `<select>` (agent, disabled for now) |
+| `request-status`                                       | Status text (customer) or status `<select>` (agent) |
 | `create-request-form`                                  | Create form                                                           |
 | `field-title` / `field-category` / `field-description` | Create fields                                                         |
 | `create-request-submit`                                | **Create request**                                                    |
@@ -444,8 +444,7 @@ Postgres via Docker is the default. If Docker Desktop cannot run on Windows, see
 
 ## What is not here yet
 
-- Request seed fixtures `NX-000001`… (Iteration 5)
-- Playwright agent queue / status specs (I4 product is green by hand; you add them)
+- I5 Playwright (API isolation, `storageState`, journey) after the product gate is green
 
 ## Docs
 

@@ -32,13 +32,14 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. Product **I4 is green by hand**. I4 specs are unblocked ([ITERATIONS.md](./ITERATIONS.md)). No fixtures yet.
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. I4 agent specs are in `e2e/agent/`. **Next is product I5** ([ITERATIONS.md](./ITERATIONS.md)). No fixtures yet.
 
 | Already automated | You can add now | Wait |
 | ----------------- | --------------- | ---- |
-| `/login` form + labels | Agent queue / status specs | Seed rows / API matrix (I5) |
+| `/login` form + labels | Nothing until I5 seed / reset is green | Seed rows / API matrix (I5) |
 | Valid / invalid login, logout, redirects | | `storageState`, fixtures |
 | Create / list / detail / isolation | | |
+| Agent queue (Ana + Ben) + status to owner | | |
 
 ## First 90 minutes (after you have `npm run dev` working)
 

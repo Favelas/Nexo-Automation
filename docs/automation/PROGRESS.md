@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** Product I4 is green by hand. I4 specs are unblocked; you write them. No fixtures. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+**Current stop:** I4 suite is green. Product **I5** (seed / reset / API). No fixtures. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -150,16 +150,16 @@ File: `login.page.ts` (class `LoginPage`). No fixture yet — fixture is “give
 
 ## Today
 
-Product I4 is green by hand. No Playwright in this sitting.
+I4 specs are green (`e2e/agent/requestsQueue.spec.ts`, 3 passed). Product I5 is seed / reset.
 
-- [x] I3 specs (navigate, happy create + detail, empty fields, isolation). No fixtures
-- [x] Agent queue lists every customer
-- [x] Agent changes status; customer sees it
-- [x] Do not add I4 Playwright (this sitting)
+- [x] I3 specs. No fixtures
+- [x] I4 specs (queue Ana + Ben; status visible to owner). No fixtures
+- [x] Seed `NX-000001`…`NX-000003` (run `npm run db:reset` once to wipe leftover `NX-000016`… and close the gate)
+- [ ] Do not add I5 Playwright until the gate is green
 
 ## Step 11 — Pause
 
-Login and I3 stay closed. Product I4 stays closed. Next sitting you may add I4 specs. Not Level 5.
+Login, I3, and I4 stay closed. Next sitting is **product I5**, not Level 5.
 
 ---
 

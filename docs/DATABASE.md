@@ -3,7 +3,7 @@
 **What this is:** Postgres / Prisma schema — tables, enums, public ids, seed order, SQLite fallback.  
 **Not this:** HTTP routes ([API.md](./API.md)) or how to boot Docker (root [README.md](../README.md)).
 
-Tables may be empty of **requests** until Iteration 5 seed. Iteration 3 seeds **categories** so the create form has options.
+Iteration 3 seeds **categories**. Iteration 5 seeds request rows `NX-000001`…`NX-000003` and matching history.
 
 ## Engine
 
