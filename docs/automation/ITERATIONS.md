@@ -23,11 +23,11 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 | Track | Stop | Next |
 | ----- | ---- | ---- |
 | Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | Run `db:reset` once, then STOP product |
-| Automation | **I4 suite green** | I5 API specs (isolation / RBAC). No `storageState` / fixtures yet |
+| Automation | **I4 suite green** — queue (Ana + Ben) + status visible to owner | You write I5 API specs. No `storageState` / fixtures yet |
 
 ```
 Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 API/seed → STOP product
-Automation:  [L0–4 done] → [I3–I4 suite done] → I5 API specs
+Automation:  [L0–4 done] → [I3–I4 suite done] → you write I5 API specs
 ```
 
 ## Status
@@ -92,5 +92,5 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 ## What not to do at this stop
 
 - Do not add more login, I3, or I4 tests.
-- Do not add `storageState` / custom fixtures yet.
+- I5 API specs are yours to write. Do not add `storageState` / custom fixtures yet.
 - Do not treat `/playwright/.auth/` in `.gitignore` as the Nexo path. Session files (later) go under `e2e/.auth/` (already gitignored).

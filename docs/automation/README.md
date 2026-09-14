@@ -32,15 +32,14 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. I4 agent specs are in `e2e/agent/`. I5 API isolation is in `e2e/api/`. No fixtures yet.
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. I4 agent specs are in `e2e/agent/`. **I5 API specs: you write them.** No fixtures yet.
 
 | Already automated | You can add now | Wait |
 | ----------------- | --------------- | ---- |
-| `/login` form + labels | More I5 API cases if a gate hole shows | `storageState`, fixtures, CI |
+| `/login` form + labels | API isolation / RBAC (`{ request }`) | `storageState`, fixtures, CI |
 | Valid / invalid login, logout, redirects | | Journey UI (Level 10) |
 | Create / list / detail / isolation | | |
 | Agent queue (Ana + Ben) + status to owner | | |
-| API 401 / 403 / 404 isolation | | |
 
 ## First 90 minutes (after you have `npm run dev` working)
 
