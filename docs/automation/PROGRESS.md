@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** I4 suite is green. Product **I5** (seed / reset / API). No fixtures. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+**Current stop:** I4 suite is green. I5 API isolation specs are in `e2e/api/`. No fixtures. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -150,12 +150,16 @@ File: `login.page.ts` (class `LoginPage`). No fixture yet — fixture is “give
 
 ## Today
 
-I4 specs are green (`e2e/agent/requestsQueue.spec.ts`, 3 passed). Product I5 is seed / reset.
+I4 specs are green. I5 API isolation specs are in `e2e/api/isolation.spec.ts`.
 
 - [x] I3 specs. No fixtures
 - [x] I4 specs (queue Ana + Ben; status visible to owner). No fixtures
-- [x] Seed `NX-000001`…`NX-000003` (run `npm run db:reset` once to wipe leftover `NX-000016`… and close the gate)
-- [ ] Do not add I5 Playwright until the gate is green
+- [x] Seed `NX-000001`…`NX-000003` (run `npm run db:reset` once to wipe leftover ids)
+- [ ] I5 API specs green; still no `storageState` / CI
+
+## Step 11 — Pause
+
+Login, I3, and I4 stay closed. I5 UI journey / `storageState` / CI wait. Not Level 5 fixtures yet.
 
 ## Step 11 — Pause
 
