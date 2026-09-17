@@ -1,7 +1,7 @@
 # API contract (MVP)
 
 **What this is:** The REST contract under `/api/*` — methods, status codes, bodies.  
-**Not this:** Page map ([ARCHITECTURE.md](./ARCHITECTURE.md)), schema ([DATABASE.md](./DATABASE.md)), or how to write API specs ([automation/FRAMEWORK.md](./automation/FRAMEWORK.md)).
+**Not this:** Page map ([ARCHITECTURE.md](./ARCHITECTURE.md)), schema ([DATABASE.md](./DATABASE.md)), or how to write Playwright API specs ([automation/API_TESTING.md](./automation/API_TESTING.md)).
 
 All routes live under `/api/*`. JSON only. No DELETE in MVP.
 

@@ -32,5 +32,6 @@ Start at [automation/README.md](./automation/README.md).
 | [AUTOMATION_ROADMAP.md](./automation/AUTOMATION_ROADMAP.md) | Skill levels — **definition of done** |
 | [AUTOMATION_LEARNING_GUIDE.md](./automation/AUTOMATION_LEARNING_GUIDE.md) | Same levels — **curriculum** (concept → practice) |
 | [QA_CHALLENGES.md](./automation/QA_CHALLENGES.md) | Practice exercises, no spoilers |
+| [API_TESTING.md](./automation/API_TESTING.md) | I5: how to write Playwright API specs (Postman → `{ request }`) |
 
 Roadmap and learning guide are **not** copies of each other. Roadmap = when a level is done. Guide = how to learn that level. Ticks live only in ITERATIONS / PROGRESS.

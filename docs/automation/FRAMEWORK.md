@@ -440,7 +440,7 @@ Three layers. Grow in this order.
 
 ## 12. API layer in the suite
 
-When `/api/*` exists:
+Learner walkthrough (Postman → `{ request }`, first spec, I5 oracles): [API_TESTING.md](./API_TESTING.md). Folder shape stays in this section.
 
 - Use `request.post('/api/auth/login', { data: { email, password } })`.
 - Store cookies from the response (`storageState` from `APIRequestContext` is supported in Playwright).

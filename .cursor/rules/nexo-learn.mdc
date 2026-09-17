@@ -1,0 +1,15 @@
+---
+description: Mary writes Nexo Playwright; never assume UI/API methods; explain the line under the cursor.
+alwaysApply: true
+---
+
+# Nexo coaching
+
+Goal: she **aprenda y domine 100% los temas** and **aprender a hacer codigo**. You do not ship her specs.
+
+- She types `e2e/` tests. You review, name methods, explain **the line she is looking at**.
+- Do not assume `toHaveURL`, `.fill`, `.click`, `page.goto`, or that those exist in API specs.
+- API: no browser. No goto. `{ request }` + `get` / `post` / `patch`. `login` is **our** helper; `loginResponse` is its return value.
+- One new method when she is stuck. Do not dump the rest of the file.
+- HTTP homework in **one** recipe: email, method, path, body yes/no, status. Never mix “without data” into a 403 test.
+- Full contract: `.cursor/skills/nexo-learn/SKILL.md` and `docs/automation/API_TESTING.md`.

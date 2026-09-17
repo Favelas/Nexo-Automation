@@ -12,9 +12,10 @@ This folder does **not** contain test code. Specs live in `e2e/`.
 | [ITERATIONS.md](./ITERATIONS.md) | Live tracker: product I1–I5 vs suite levels |
 | [FRAMEWORK.md](./FRAMEWORK.md) | How to structure the suite (config, POM, data, CI) |
 | [AUTOMATION_ROADMAP.md](./AUTOMATION_ROADMAP.md) | Skill levels — **definition of done** |
-| [AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md) | Same levels — **curriculum** (concept → practice) |
+| [AUTOMATION_LEARNING_GUIDE.md](./AUTOMATION_LEARNING_GUIDE.md) | Same levels — **curriculum** (concept → practice). Coach: you write the code. |
 | [QA_CHALLENGES.md](./QA_CHALLENGES.md) | Exercises without spoilers |
 | [FEEDBACK.md](./FEEDBACK.md) | I3 recap: when to use `const`, how `publicId` is read |
+| [API_TESTING.md](./API_TESTING.md) | I5: Postman → `{ request }`, **line-by-line** dictionary, oracles |
 | [../../README.md](../../README.md) | App boot, seed accounts, locator `data-testid` list |
 
 ## Where should the suite live?
@@ -32,7 +33,7 @@ You still **write** every spec. Level 0 (`e2e/smoke/login-form.spec.ts`) exists.
 
 ## What you can automate right now
 
-Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. I4 agent specs are in `e2e/agent/`. **I5 API specs: you write them.** No fixtures yet.
+Level 0 smoke is in `e2e/smoke/login-form.spec.ts`. I2 auth is in `e2e/auth/`. I3 customer specs are in `e2e/customer/`. I4 agent specs are in `e2e/agent/`. **I5 API specs: you write them.** Guide: [API_TESTING.md](./API_TESTING.md). No fixtures yet.
 
 | Already automated | You can add now | Wait |
 | ----------------- | --------------- | ---- |

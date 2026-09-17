@@ -5,6 +5,20 @@
 
 Work in order. You **may** add Playwright now for an Iteration 1 **login-form smoke** (page renders, no real session). Do **not** write a “valid login lands on dashboard” spec until Iteration 2 works manually. A serious suite (RBAC, API, journeys) waits until Iteration 5’s quality gate is green. Architecture, folder layout, and global config: [README.md](./README.md). Start with **one** spec, not a framework.
 
+## How you learn (coach contract)
+
+**Goal:** you write the code and can explain every token on the line. Green tests the coach pasted do not count.
+
+| Rule | Why (learning research, applied — not a lecture) |
+| ---- | ------------------------------------------------ |
+| You type the next `test()`. The coach names **one** method if you freeze. | **Generation effect** — producing the line beats reading it. |
+| UI methods are **not** reused in API. If you only know `.fill` / `toHaveURL`, ask. | **Expertise reversal** — yesterday’s UI schema blocks today’s HTTP schema if we skip naming. |
+| One idea per sitting (e.g. isolation, not isolation + `storageState` + CI). | **Cognitive load** — working memory holds few new tokens. |
+| First file can be a worked example (`e2e/api/auth/login.spec.ts`). The next file you complete. | **Worked-example fading** — full example → fill the blanks → independent. |
+| Four questions before code ([FEEDBACK.md](./FEEDBACK.md)). | Reduces load: value → after which call → where it lives → where it plugs in. |
+
+API line-by-line: [API_TESTING.md](./API_TESTING.md). Cursor skill: `.cursor/skills/nexo-learn/SKILL.md`.
+
 ## Pyramid
 
 | Layer               | Use for                                                                 | Not for                               |
@@ -71,12 +85,13 @@ Work in order. You **may** add Playwright now for an Iteration 1 **login-form sm
 
 ### 7. API testing
 
-- **Concept:** `request` context, status codes, JSON envelope.
-- **Why:** RBAC and isolation are HTTP rules.
-- **When:** As soon as `/api/*` exists (Iteration 5).
-- **Nexo:** `GET /api/requests`, cross-customer `404`.
-- **Practice:** Customer token cannot read Customer B’s `NX-*`.
-- **Expected:** API specs own rules; UI specs do not re-prove every status code.
+- **Concept:** `{ request }` is an HTTP client (cookie jar). There is **no** `page`, **no** `goto`, **no** `.fill`. Methods: `request.get`, `request.post`, `request.patch`. `login(...)` is **our** helper, not a Playwright builtin.
+- **Why:** RBAC and isolation are HTTP rules. The UI can hide a row; the API must still 404.
+- **When:** As soon as `/api/*` exists (Iteration 5). After Postman matches [../API.md](../API.md).
+- **Nexo:** `GET /api/requests`, Ana `GET …/NX-000003` → 404; agent POST → 403.
+- **Practice:** You complete `e2e/api/requests/isolation.spec.ts`. Coach explains **each line** you point at ([API_TESTING.md](./API_TESTING.md) dictionary). You do not skip “where does `loginResponse` come from.”
+- **Expected:** You can say, for any line: fixture vs helper vs return value vs `expect`. API specs own rules; UI specs do not re-prove every status code.
+- **Not yet:** `storageState`, fixtures, CI.
 
 ### 8. Test data
 
