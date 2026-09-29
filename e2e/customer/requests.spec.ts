@@ -8,10 +8,7 @@ import { LoginPage } from "../pages/login.page";
 test("Customer can navigate to new request page", async ({ page }) => {
     const customerPage = new CustomerPage(page);    
     const newRequestPage = new NewRequestPage(page);
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login("customer.a@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/customer/dashboard");
+    await page.goto("/customer/dashboard");
     await customerPage.newRequestLink.click();
     await expect(newRequestPage.newRequestHeader).toBeVisible();
     await expect(newRequestPage.titleInput).toBeVisible();
@@ -25,16 +22,12 @@ test("Customer can create a new request, see it in my requests and validate deta
     const newRequestPage = new NewRequestPage(page);
     const myRequestPage = new MyRequestsPage(page);
     const detailsPage = new RequestDetailsPage(page);
-    const loginPage = new LoginPage(page);
-
+    await page.goto("/customer/dashboard");
     const title = "Test title";
     const category = "Access";
     const description = "Test description";
     const status = "Submitted";
 
-    await loginPage.goto();
-    await loginPage.login("customer.a@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/customer/dashboard");
     await customerPage.newRequestLink.click();
     await newRequestPage.newRequest(title, category, description);
 
@@ -42,7 +35,7 @@ test("Customer can create a new request, see it in my requests and validate deta
     await expect(myRequestPage.latestRow()).toContainText(title);
     await expect(myRequestPage.latestRow()).toContainText(status);
 
-    await myRequestPage.openLatestRequest();
+    await myRequestPage.requestLink(publicId).click();
     await expect(page).toHaveURL(`/customer/requests/${publicId}`);
     await expect(detailsPage.publicId).toHaveText(publicId);
     await expect(detailsPage.title).toHaveText(title);
@@ -54,10 +47,7 @@ test("Customer can create a new request, see it in my requests and validate deta
 test("Customer restricted to add new request if required fields are not filled", async ({ page }) => {
     const customerPage = new CustomerPage(page);
     const newRequestPage = new NewRequestPage(page);
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login("customer.a@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/customer/dashboard");
+    await page.goto("/customer/dashboard");
     await customerPage.newRequestLink.click();
     await newRequestPage.createRequestButton.click();
     await expect(newRequestPage.titleFieldError).toBeVisible();
@@ -72,9 +62,7 @@ test("Customer create request and another user cannot see it", async ({ page }) 
     const myRequestPage = new MyRequestsPage(page);
     const detailsPage = new RequestDetailsPage(page);
 
-    await loginPage.goto();
-    await loginPage.login("customer.a@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/customer/dashboard");
+    await page.goto("/customer/dashboard");
     await customerPage.newRequestLink.click();
     await newRequestPage.newRequest("Isolation title", "Access", "Only customer A");
 

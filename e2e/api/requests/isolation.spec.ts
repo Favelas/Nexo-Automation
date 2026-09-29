@@ -43,7 +43,7 @@ test("Agent can access requests from any user", async ({ request}) => {
   const response = await request.get("/api/requests/NX-000003");
   expect(response.status()).toBe(200);
   const response2 = await request.get("/api/requests/NX-000001");
-  expect(response.status()).toBe(200);
+  expect(response2.status()).toBe(200);
 });
 
 test("Agent can't add new requests", async ({ request }) => {

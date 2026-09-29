@@ -42,29 +42,36 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,      
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    {
+      name: "customer",
+      dependencies: ["setup"],
+      testMatch: /customer\/.*spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'e2e/.auth/customer.json',
+      },
+    },  
+    {
+      name: "agent",
+      dependencies: ["setup"],
+      testMatch: /agent\/.*spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'e2e/.auth/agent.json',
+      },
+    },  
+    {
+      name: "logged-out",
+      testIgnore: /.*\.setup\.ts|customer\/.*\.spec\.ts|agent\/.*\.spec\.ts/,
+            use: {...devices['Desktop Chrome'],
+          
+      },
+    },
+    
+  
   ],
 
   /* Run your local dev server before starting the tests */

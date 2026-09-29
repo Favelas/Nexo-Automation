@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** I4 suite is green. Next sitting **you** write I5 API specs (`request`, not `page`). No fixtures. See [Today](#today) and [ITERATIONS.md](./ITERATIONS.md#current-stop).
+**Current stop:** Level 6 `storageState` is green (`npx playwright test` 28 passed). Next sitting is Level 10 journey. No custom fixtures. No CI.
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -155,11 +155,12 @@ I4 specs are green (`e2e/agent/requestsQueue.spec.ts`). Seed `NX-000001`… exis
 - [x] I3 specs. No fixtures
 - [x] I4 specs (queue Ana + Ben; status visible to owner). No fixtures
 - [x] Seed `NX-000001`…`NX-000003`
-- [ ] I5 API specs (**you** write them). No `storageState` / fixtures
+- [x] I5 API specs (`e2e/api/auth/login.spec.ts`, `e2e/api/requests/isolation.spec.ts`)
+- [x] Level 6 `storageState` (Ana + Avery). Login form still in `logged-out`
 
 ## Step 11 — Pause
 
-Login, I3, and I4 stay closed. Next sitting is **your** I5 API specs. Not Level 5.
+Login, I3, I4, API, and storageState stay closed. Next sitting is Level 10 journey. Not Level 5 fixtures. Not CI.
 
 ---
 

@@ -23,11 +23,11 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 | Track | Stop | Next |
 | ----- | ---- | ---- |
 | Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | Run `db:reset` once, then STOP product |
-| Automation | **I4 suite green** — queue (Ana + Ben) + status visible to owner | You write I5 API specs. No `storageState` / fixtures yet |
+| Automation | **Level 6 green** — `storageState` for Ana + Avery; login form stays in `logged-out` | Level 10 journey. No custom fixtures. No CI |
 
 ```
-Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 API/seed → STOP product
-Automation:  [L0–4 done] → [I3–I4 suite done] → you write I5 API specs
+Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 seed → STOP product
+Automation:  [L0–4 done] → [I3–I4 UI done] → [L7 API] → [L6 storageState] → journey
 ```
 
 ## Status
@@ -56,8 +56,8 @@ Tick `[x]` only when that level is **fully** done. A `[x]` on 0–4 does **not**
 | 3 | Assertions | Login spec asserts URL + heading. Zero `waitForTimeout` | [x] |
 | 4 | POM | Login locators extracted after auth tests copied them | [x] |
 | 5 | Fixtures | `customerPage` / `agentPage`; specs no longer paste login | [ ] |
-| 6 | Auth strategies | `storageState` for both roles. One UI spec still covers the form | [ ] |
-| 7 | API | Isolation and status via `/api/*` | [ ] |
+| 6 | Auth strategies | `storageState` for both roles. One UI spec still covers the form | [x] |
+| 7 | API | Isolation and status via `/api/*` | [x] |
 | 8 | Test data | Writes create their own requests. Seed `NX-000001` is read-only in CI | [ ] |
 | 9 | RBAC | Role × route: UI redirects and API 401/403/404 | [ ] |
 | 10 | Workflows | One customer → agent → customer journey | [ ] |
@@ -91,6 +91,7 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 
 ## What not to do at this stop
 
-- Do not add more login, I3, or I4 tests.
-- I5 API specs are yours to write. Do not add `storageState` / custom fixtures yet.
-- Do not treat `/playwright/.auth/` in `.gitignore` as the Nexo path. Session files (later) go under `e2e/.auth/` (already gitignored).
+- Do not add more login, I3, I4, or API isolation tests.
+- Do not fill custom `e2e/fixtures/` (Level 5). Do not add CI yet.
+- Session files go under `e2e/.auth/` (gitignored). Not `/playwright/.auth/`.
+- `e2e/auth/login.spec.ts` must keep **no** `storageState` (that spec still covers the form).

@@ -10,9 +10,7 @@ test("Agent can click the request queue and review requests table", async ({ pag
     const agentPage = new AgentPage(page);
     const loginPage = new LoginPage(page);
     const agentRequestsQueuePage = new AgentRequestsQueuePage(page);
-    await loginPage.goto();
-    await loginPage.login("agent@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/agent/dashboard");
+    await page.goto("/agent/dashboard");
     await agentPage.requestHeaderNav.click();
     await expect(page).toHaveURL("/agent/requests");
     await expect(agentRequestsQueuePage.requestQueueHeader).toBeVisible();
@@ -27,9 +25,7 @@ test("Agent can open the latest request and validate the request details", async
     const agentRequestsDetailsPage = new AgentRequestsDetailsPage(page);
     const loginPage = new LoginPage(page);
 
-    await loginPage.goto();
-    await loginPage.login("agent@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/agent/dashboard");
+    await page.goto("/agent/dashboard");
     await agentPage.requestHeaderNav.click();
 
 
@@ -57,9 +53,7 @@ test("Agent can update the request status and customer can validate the new requ
         "Ben Cho": "customer.b@nexo.test",
     } as const;
 
-    await loginPage.goto();
-    await loginPage.login("agent@nexo.test", "Password123!");
-    await expect(page).toHaveURL("/agent/dashboard");
+    await page.goto("/agent/dashboard");
     await agentPage.requestHeaderNav.click();
     await expect(page).toHaveURL("/agent/requests");
     await expect(agentRequestsQueuePage.requestQueueTable).toBeVisible();
