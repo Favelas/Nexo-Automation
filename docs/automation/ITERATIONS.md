@@ -23,11 +23,11 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 | Track | Stop | Next |
 | ----- | ---- | ---- |
 | Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | Run `db:reset` once, then STOP product |
-| Automation | **Level 6 green** — `storageState` for Ana + Avery; login form stays in `logged-out` | Level 10 journey. No custom fixtures. No CI |
+| Automation | **Level 10 green** — Ana creates → Avery `IN_PROGRESS` then `RESOLVED` → Ana sees Resolved | Level 12 CI. No custom fixtures |
 
 ```
 Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 seed → STOP product
-Automation:  [L0–4 done] → [I3–I4 UI done] → [L7 API] → [L6 storageState] → journey
+Automation:  [L0–4] → [L7 API] → [L6 storageState] → [L10 journey] → CI
 ```
 
 ## Status
@@ -60,7 +60,7 @@ Tick `[x]` only when that level is **fully** done. A `[x]` on 0–4 does **not**
 | 7 | API | Isolation and status via `/api/*` | [x] |
 | 8 | Test data | Writes create their own requests. Seed `NX-000001` is read-only in CI | [ ] |
 | 9 | RBAC | Role × route: UI redirects and API 401/403/404 | [ ] |
-| 10 | Workflows | One customer → agent → customer journey | [ ] |
+| 10 | Workflows | One customer → agent → customer journey | [x] |
 | 11 | Parallel | Green with workers > 1 | [ ] |
 | 12 | CI | GitHub Actions: lint/build + Playwright + Compose Postgres | [ ] |
 | 13 | Advanced | Trace on failure; at least one accessibility assertion | [ ] |
@@ -91,7 +91,8 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 
 ## What not to do at this stop
 
-- Do not add more login, I3, I4, or API isolation tests.
-- Do not fill custom `e2e/fixtures/` (Level 5). Do not add CI yet.
-- Session files go under `e2e/.auth/` (gitignored). Not `/playwright/.auth/`.
-- `e2e/auth/login.spec.ts` must keep **no** `storageState` (that spec still covers the form).
+- Do not add more login, I3, I4, API isolation, or extra journeys.
+- Do not fill custom `e2e/fixtures/` (Level 5).
+- Session files go under `e2e/.auth/` (gitignored).
+- `e2e/auth/login.spec.ts` must keep **no** `storageState`.
+- Next sitting is CI (Level 12).

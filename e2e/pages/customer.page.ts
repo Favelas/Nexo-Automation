@@ -7,6 +7,8 @@ export class CustomerPage extends PageObject {
     readonly newRequestLink = this.page.getByTestId("cta-new-request");
     readonly myRequestsHeaderNav = this.page.getByTestId("nav-my-requests");
     readonly myRequestsLink = this.page.getByTestId("nav-my-requests");
+    readonly logoutLink = this.page.getByRole('button', { name: 'Log out' })
+    readonly myRequestsTable = this.page.getByTestId("request-table");
 
     constructor(page: Page) {
         super(page);
@@ -14,6 +16,7 @@ export class CustomerPage extends PageObject {
 async goto() {
     await this.page.goto("/customer/dashboard");
 }
- 
+
+
 
 }

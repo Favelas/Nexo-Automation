@@ -15,8 +15,6 @@ export class AgentRequestsDetailsPage extends PageObject {
     }
     async updateRequestStatus(status: string) {
         await this.statusDropdown.selectOption(status);
-        // waitForLoadState("load") ya está fulfilled (la página ya cargó).
-        // waitForEvent("load") espera la recarga del assign DESPUÉS del PATCH.
         await Promise.all([
             this.page.waitForEvent("load"),
             this.updateRequestStatusButton.click(),

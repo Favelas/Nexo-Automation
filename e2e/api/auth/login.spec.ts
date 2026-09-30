@@ -21,8 +21,6 @@ test("Valid customer login then GET /api/auth/me is CUSTOMER", async ({
 }) => {
   const loginResponse = await login(request, "customer.a@nexo.test");
   expect(loginResponse.status()).toBe(200);
-
-  // La cookie de sesión queda en { request } (como el cookie jar de Postman).
   const me = await request.get("/api/auth/me");
   expect(me.status()).toBe(200);
   const body = await me.json();
