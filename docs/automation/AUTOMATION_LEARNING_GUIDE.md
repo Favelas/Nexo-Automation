@@ -11,7 +11,8 @@ Work in order. You **may** add Playwright now for an Iteration 1 **login-form sm
 
 | Rule | Why (learning research, applied — not a lecture) |
 | ---- | ------------------------------------------------ |
-| You type the next `test()`. The coach names **one** method if you freeze. | **Generation effect** — producing the line beats reading it. |
+| You type the next `test()` or YAML `run:`. The coach names **one** method or key if you freeze. Step: **folder/path → snippet → what it does**. | **Generation effect** — producing the line beats reading it. |
+| CI/CD and later levels: you must **explain it in your own words** (interview), not only have a green job. | Retrieval + dual coding — analogía + tabla, then you say it back. |
 | UI methods are **not** reused in API. If you only know `.fill` / `toHaveURL`, ask. | **Expertise reversal** — yesterday’s UI schema blocks today’s HTTP schema if we skip naming. |
 | One idea per sitting (e.g. isolation, not isolation + `storageState` + CI). | **Cognitive load** — working memory holds few new tokens. |
 | First file can be a worked example (`e2e/api/auth/login.spec.ts`). The next file you complete. | **Worked-example fading** — full example → fill the blanks → independent. |
@@ -128,10 +129,12 @@ API line-by-line: [API_TESTING.md](./API_TESTING.md). Cursor skill: `.cursor/ski
 
 ### 12. CI
 
-- **Concept:** GitHub Actions boots app + Postgres + Playwright.
-- **When:** After the suite is stable locally.
-- **Nexo:** `db:reset` in CI, then `playwright test`.
-- **Expected:** Main/PR pipeline, not only a laptop run.
+- **Concept:** GitHub Actions boots app + Postgres + Playwright. A **workflow** is the recipe; **CI** is “every git event we configured gets a clean run.” Not CD (deploy to production). Push to `main` ≠ production.
+- **Why:** Local green is not team green. App **or** spec changes in **this** repo can break the suite.
+- **When:** After the suite is stable locally (29 tests green).
+- **Nexo:** `db:reset` in CI, then `playwright test`. `CI=true` so Playwright starts `webServer` itself.
+- **Practice:** You **create** `.github/workflows/` and type the YAML in steps (path → block → meaning). Coach does not paste the whole file. You explain the pipeline in interview words before adding more jobs.
+- **Expected:** Main/PR pipeline, not only a laptop run. You can say CI vs CD and what the job does.
 
 ### 13. Advanced
 

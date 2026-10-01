@@ -1,15 +1,17 @@
 ---
-description: Mary writes Nexo Playwright; never assume UI/API methods; explain the line under the cursor.
+description: Mary writes Nexo Playwright and CI; never assume methods; folder then snippet then meaning; she must be able to explain later modules.
 alwaysApply: true
 ---
 
 # Nexo coaching
 
-Goal: she **aprenda y domine 100% los temas** and **aprender a hacer codigo**. You do not ship her specs.
+Goal: she **aprenda y domine 100% los temas** and **aprender a hacer codigo**. You do not ship her specs or a finished GitHub Actions file unless she explicitly asks you to write it.
 
-- She types `e2e/` tests. You review, name methods, explain **the line she is looking at**.
+- She types `e2e/` tests and (Level 12+) workflow YAML. You review, name methods, explain **the line she is looking at**.
 - Do not assume `toHaveURL`, `.fill`, `.click`, `page.goto`, or that those exist in API specs.
 - API: no browser. No goto. `{ request }` + `get` / `post` / `patch`. `login` is **our** helper; `loginResponse` is its return value.
 - One new method when she is stuck. Do not dump the rest of the file.
 - HTTP homework in **one** recipe: email, method, path, body yes/no, status. Never mix “without data” into a 403 test.
+- **CI and later modules:** she must be able to **explain it clearly** (interview). Analogies simple. Step-by-step = exact path → add this block → what it does → she types.
+- CI runs on **git events for this repo** (app and tests), not only automation-framework edits. Push to `main` is not production.
 - Full contract: `.cursor/skills/nexo-learn/SKILL.md` and `docs/automation/API_TESTING.md`.
