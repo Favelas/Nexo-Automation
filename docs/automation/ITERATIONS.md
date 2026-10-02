@@ -22,12 +22,12 @@ The product roadmap says “start Playwright after Iteration 5”. This lab also
 
 | Track | Stop | Next |
 | ----- | ---- | ---- |
-| Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | Run `db:reset` once, then STOP product |
-| Automation | **Level 10 green** — Ana creates → Avery `IN_PROGRESS` then `RESOLVED` → Ana sees Resolved | Level 12 CI. No custom fixtures |
+| Product | **I5 seed shipped** — `NX-000001`…`NX-000003` in `prisma/seed.ts` | STOP product |
+| Automation | **Level 11 green** — 30 passed, `workers` 2 on laptop / 1 on CI | Level 13 tick if you accept traces + one a11y line. No custom fixtures |
 
 ```
 Product:     [I1 done] → [I2 done] → [I3 done] → [I4 done] → I5 seed → STOP product
-Automation:  [L0–4] → [L7 API] → [L6 storageState] → [L10 journey] → CI
+Automation:  [L0–4] → [L7 API] → [L6 storageState] → [L10 journey] → [L12 CI] → [L9 RBAC] → [L8 + L11 parallel]
 ```
 
 ## Status
@@ -40,7 +40,7 @@ Tick when true. Do not tick a suite row before the matching product gate is manu
 | I2 | Auth.js Credentials, 3 seed users, middleware, real dashboards | Auth checklist below | Valid A + agent login; invalid + `role="alert"`; logout; anonymous → `/login`; wrong-role redirect | [x] | [x] |
 | I3 | Customer create / list / detail | Create → My requests → detail `NX-######` | Create validation; happy create; A does not see B’s id in the table | [x] | [x] |
 | I4 | Agent queue / detail / status | Queue has two customers; 3 statuses; A sees the new status | Agent sees both customers; status change visible to A | [x] | [x] |
-| I5 | Seed, `db:reset`, API matches UI | Full quality gate in `PRODUCT_REQUIREMENTS.md` | API isolation/RBAC; `storageState`; one journey; then CI | [ ] | [ ] |
+| I5 | Seed, `db:reset`, API matches UI | Full quality gate in `PRODUCT_REQUIREMENTS.md` | API isolation/RBAC; `storageState`; one journey; then CI | [x] | [x] |
 
 Out of MVP (never in these five): admin, register, forgot password, comments, uploads, search, email.
 
@@ -58,11 +58,11 @@ Tick `[x]` only when that level is **fully** done. A `[x]` on 0–4 does **not**
 | 5 | Fixtures | `customerPage` / `agentPage`; specs no longer paste login | [ ] |
 | 6 | Auth strategies | `storageState` for both roles. One UI spec still covers the form | [x] |
 | 7 | API | Isolation and status via `/api/*` | [x] |
-| 8 | Test data | Writes create their own requests. Seed `NX-000001` is read-only in CI | [ ] |
-| 9 | RBAC | Role × route: UI redirects and API 401/403/404 | [ ] |
+| 8 | Test data | Writes create their own requests. Seed `NX-000001` is read-only in CI | [x] |
+| 9 | RBAC | Role × route: UI redirects and API 401/403/404 | [x] |
 | 10 | Workflows | One customer → agent → customer journey | [x] |
-| 11 | Parallel | Green with workers > 1 | [ ] |
-| 12 | CI | GitHub Actions: lint/build + Playwright + Compose Postgres | [ ] |
+| 11 | Parallel | Green with workers > 1 | [x] |
+| 12 | CI | GitHub Actions: lint/build + Playwright + Compose Postgres | [x] |
 | 13 | Advanced | Trace on failure; at least one accessibility assertion | [ ] |
 
 Levels 0–4 are complete (smoke, login spec, POM). I3 specs still paste `LoginPage.login(...)`. Level 5 stays empty until you extract that on purpose. Do not fill `e2e/fixtures/` to “look ready”.
@@ -95,4 +95,4 @@ When this gate is green: add `e2e/auth/login.spec.ts`. Retire or rewrite the I1 
 - Do not fill custom `e2e/fixtures/` (Level 5).
 - Session files go under `e2e/.auth/` (gitignored).
 - `e2e/auth/login.spec.ts` must keep **no** `storageState`.
-- Next sitting is CI (Level 12).
+- Next sitting is optional: tick Level 13, CI report artifact, or fixtures. Not extra journeys.

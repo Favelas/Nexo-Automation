@@ -16,8 +16,8 @@ You still write every test. This page is the map, not the homework copy.
 | ----- | --- | ------------------- | ---------------- |
 | Product | I1–I4 done. Seed `NX-000001`…`003` exists | Optional: `npm run db:reset` once (wipes leftover ids) | STOP growing the app |
 | Suite I1–I4 | Green (smoke, auth, customer, agent UI) | Closed | — |
-| **I5 suite** | Empty | **API matches UI** — same rules, HTTP codes | `storageState`, one UI journey, CI |
-| Levels | 0–4 done | You practice Level 7 (API) | 5 fixtures / 6 `storageState` still wait |
+| **I5 suite** | Green (API + `storageState` + journey + CI) | Closed | Level 13 traces |
+| Levels | 0–4, 6, 7, 10, 12 done | Traces (Level 13) | 5 fixtures / 11 parallel still wait |
 
 **“API matches UI”** means: if the page hides Ben’s ticket from Ana, `GET /api/requests/NX-000003` as Ana is **404**. You do **not** click the table. You assert `response.status()`.
 

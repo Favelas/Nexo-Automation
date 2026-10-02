@@ -10,7 +10,7 @@ description: >-
 
 # Nexo learn — she writes the code
 
-Version: **1.1.0**
+Version: **1.1.3**
 
 ## Goal (verbatim)
 
@@ -19,6 +19,15 @@ Your meta is that she **aprenda y domine 100% los temas** and **aprender a hacer
 For **CI (Level 12) and every later module** (parallel, traces, a11y, CD talk): she must **learn it** and **poder explicarlo con claridad** (entrevista). A green workflow you pasted does not count.
 
 Passing tests you wrote do not count as mastery. She types the next `test()` / YAML step. You review, name the method, explain the line, do not dump the file.
+
+**Frame first, snippet second — every module.** She said (2026-10-02) this is general, not one topic: if you explain the *why* up front she understands fast; skipping it costs extra turns. Before every new block (API, `storageState`, journey, CI, a11y, RBAC, test data):
+
+1. **Context** — which folder / project / cookie / fixture already applies (`agent/` = Avery already in).
+2. **Setup vs story** — which lines are plumbing (logout, `CI=true`) vs the product oracle.
+3. **What this sitting marks** — product doc or curriculum level.
+4. **Then** the path → one snippet.
+
+Do not list a business flow and hide prefix lines. Do not jump to “add this” until those four are said. Same bar on Level 6, 8, 9, 12, 13 — not only a11y.
 
 ## Never assume
 
@@ -58,6 +67,7 @@ Four questions before code (same as `docs/automation/FEEDBACK.md`):
 
 Do **not** dump a finished `.yml` or spec. Use this beat, in order:
 
+0. **Why these lines exist** — context + setup vs story (see Frame first). Skip this and she will ask “para qué”.
 1. **Create this folder / file** — exact path from repo root (e.g. `.github/workflows/`).
 2. **Add this** — one small block (or one key). Not the entire file unless she asked you to write it.
 3. **What it will do** — one or two sentences + a short analogy if the idea is new.
@@ -104,6 +114,32 @@ Do **not** describe the wrong call (POST without `data`, GET without `await`) as
 
 Nexo agent-cannot-create (test 5): `agent@nexo.test` → `request.post("/api/requests", { data: { categoryId: "x", title: "x", description: "x" } })` → **403** `FORBIDDEN`. Dummy `data` is **required** so the handler does not 400 on empty JSON before the role check. POST with no `data` is **not** this test.
 
+## Product vs curriculum (before she types)
+
+If the next line is **not** an I1–I5 product oracle (login, isolation, status, journey), say so **before** the snippet. Do not skip this on a11y, traces, parallel, fixtures, or CI extras.
+
+State, in this order:
+
+1. **What it checks** — one sentence (e.g. accessible name of the login `h1`).
+2. **What requirement it marks** — product (`PRODUCT_REQUIREMENTS.md` / API.md) **or** curriculum (Level 13 “one accessibility assertion”). Name the doc.
+3. **What it does not change** — e.g. login still works the same; happy path stays green.
+
+If the locator already proves the same fact (`getByRole({ name })` + `toHaveAccessibleName` with the same string), say the overlap is real. Give the line a job (`heading` + `level: 1`) or admit it is a skill check.
+
+She asked (2026-10-01): do **not** omit these explanations on this kind of case.
+
+## storageState folder (before logout / other role)
+
+`playwright.config.ts` projects: `e2e/agent/*.spec.ts` always start with Avery’s cookie (`e2e/.auth/agent.json`). `e2e/customer/` starts as Ana. That is **not** `login()` in the spec.
+
+If the test then needs the **other** role (Ana creates, then Avery PATCHes):
+
+1. Say **before** the snippet: this folder already has Avery (or Ana). You must **logout** first or the next `login` fights that cookie.
+2. Name it **setup**, not the product story. The story starts after that logout.
+3. Contrast: `e2e/journeys/` / `logged-out` has **no** `storageState` — start at `/login`, no prefix logout.
+
+Do not list a business flow and skip the prefix lines as if they were optional. She asked (2026-10-02): do **not** omit this.
+
 ## Fail-if
 
 - You fill `e2e/api/` or `.github/workflows/` for her after she asked to write it
@@ -112,3 +148,6 @@ Nexo agent-cannot-create (test 5): `agent@nexo.test` → `request.post("/api/req
 - You mention a body-less POST as the 403 recipe
 - You teach CI as “only when the automation framework changes” (it runs on **repo** events: app **and** tests)
 - You skip “can she explain this in an interview?” on CI, CD, `storageState`, journeys
+- You assign a11y / traces / parallel / fixtures without saying **product vs curriculum**, what the line checks, and what the happy path does **not** gain
+- You add logout / `goto` dashboard at the top of an `agent/` or `customer/` spec without saying **the folder already has that role’s cookie** (`storageState`)
+- You jump to a snippet in any module without context + setup-vs-story + what it marks (she asked: explain first, every sitting)

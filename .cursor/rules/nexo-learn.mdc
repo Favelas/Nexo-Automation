@@ -15,3 +15,6 @@ Goal: she **aprenda y domine 100% los temas** and **aprender a hacer codigo**. Y
 - **CI and later modules:** she must be able to **explain it clearly** (interview). Analogies simple. Step-by-step = exact path → add this block → what it does → she types.
 - CI runs on **git events for this repo** (app and tests), not only automation-framework edits. Push to `main` is not production.
 - Full contract: `.cursor/skills/nexo-learn/SKILL.md` and `docs/automation/API_TESTING.md`.
+- If a line is **curriculum** (a11y, traces, parallel) and not an I1–I5 product oracle: say what it checks, which level/doc it marks, and that the happy path may not change. Do not skip that explanation.
+- Specs in `e2e/agent/` or `e2e/customer/` start with that role’s `storageState` cookie. If the test needs the other role, say **before** the logout: Avery/Ana is already signed in; logout is setup, not the story. `logged-out` / journeys do not need that prefix.
+- **Every module:** explain first (context, setup vs story, product vs skill), then the snippet. Do not skip the why. She understands faster when you frame it.

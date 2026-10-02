@@ -11,7 +11,7 @@ While creating an automation framework:
 
 Tick a step when it is done on **this** machine. Iteration maps and gates: [ITERATIONS.md](./ITERATIONS.md). Architecture: [FRAMEWORK.md](./FRAMEWORK.md).
 
-**Current stop:** Level 10 journey is green (`e2e/journeys/happy.spec.ts`, 29 tests passed). Next sitting is Level 12 CI. No custom fixtures.
+**Current stop:** Level 11 parallel is green (`workers: CI ? 1 : 2`, 30 passed / 2 workers). Level 8 ticked (status test creates its own request). No custom fixtures.
 
 Before a commit: tick the matching row here / in ITERATIONS so code and docs go together.
 
@@ -158,10 +158,14 @@ I4 specs are green (`e2e/agent/requestsQueue.spec.ts`). Seed `NX-000001`… exis
 - [x] I5 API specs (`e2e/api/auth/login.spec.ts`, `e2e/api/requests/isolation.spec.ts`)
 - [x] Level 6 `storageState` (Ana + Avery). Login form still in `logged-out`
 - [x] Level 10 journey (`e2e/journeys/happy.spec.ts`) — Ana create → Avery resolve → Ana sees Resolved. 29 tests green
+- [x] Level 12 CI — `.github/workflows/playwright.yml`; Actions job `e2e` green on `main`
+- [x] Level 9 RBAC — matrix covered; `Agent does not see create request` in `e2e/agent/requestsQueue.spec.ts`
+- [x] Level 8 — agent status test creates Ana’s request, then PATCHes that `publicId`
+- [x] Level 11 — `npx playwright test` uses 2 workers locally; 30 passed
 
 ## Step 11 — Pause
 
-Login, I3, I4, API, storageState, and the journey stay closed. Next sitting is Level 12 CI. Not Level 5 fixtures.
+Login, I3, I4, API, storageState, journey, CI, RBAC, seed writes, and parallel stay closed. Optional: Level 13 tick, CI report upload. Not Level 5 fixtures.
 
 ---
 

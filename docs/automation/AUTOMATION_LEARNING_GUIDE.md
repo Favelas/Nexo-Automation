@@ -11,7 +11,7 @@ Work in order. You **may** add Playwright now for an Iteration 1 **login-form sm
 
 | Rule | Why (learning research, applied — not a lecture) |
 | ---- | ------------------------------------------------ |
-| You type the next `test()` or YAML `run:`. The coach names **one** method or key if you freeze. Step: **folder/path → snippet → what it does**. | **Generation effect** — producing the line beats reading it. |
+| You type the next `test()` or YAML `run:`. The coach names **one** method or key if you freeze. Step: **why (context, setup vs story) → folder/path → snippet → what it does**. | **Generation effect** — producing the line beats reading it. The why first is the coach contract (every module). |
 | CI/CD and later levels: you must **explain it in your own words** (interview), not only have a green job. | Retrieval + dual coding — analogía + tabla, then you say it back. |
 | UI methods are **not** reused in API. If you only know `.fill` / `toHaveURL`, ask. | **Expertise reversal** — yesterday’s UI schema blocks today’s HTTP schema if we skip naming. |
 | One idea per sitting (e.g. isolation, not isolation + `storageState` + CI). | **Cognitive load** — working memory holds few new tokens. |
@@ -138,7 +138,28 @@ API line-by-line: [API_TESTING.md](./API_TESTING.md). Cursor skill: `.cursor/ski
 
 ### 13. Advanced
 
-- **Concept:** Trace viewer, retries, network mocking, accessibility snapshots.
+- **Concept:** Trace viewer, retries, network mocking, accessibility snapshots. A **screenshot** is one photo. A **trace** is the film: each `goto` / `expect`, DOM, Network.
 - **When:** After CI is green.
-- **Practice:** Open a trace from a forced failure; add one a11y check on `/login`.
+- **Nexo config** (`playwright.config.ts`): `retries` is `2` on CI and `0` on the laptop. `trace: 'on-first-retry'` records a zip **only on that retry**. A local fail often has no `trace.zip` — there was no retry.
+- **Practice:** Open a trace (recipe below); later add one a11y check on `/login`.
 - **Expected:** You can explain a flake from a trace, not from a screenshot guess.
+- **Product vs skill:** `toHaveAccessibleName` on `/login` is **Level 13**, not an I1–I5 product requirement. It does not change login/isolation. Prefer `getByRole("heading", { level: 1 })` then the name, so the assertion has a job. Coach must say this **before** she types.
+
+**How to record and open a trace (this repo)**
+
+From the repo root. `--trace on` is a **one-run override**. Day-to-day you do not add it; CI still uses `on-first-retry`.
+
+```powershell
+npx playwright test e2e/smoke/login-form.spec.ts --trace on
+npx playwright show-trace test-results/smoke-login-form-login-form-is-visible-logged-out/trace.zip
+```
+
+For another spec, change the test path. The zip name follows the spec + test title + project, under `test-results/` (gitignored).
+
+| Command | What it is |
+| ------- | ---------- |
+| `--trace on` | Record this run (even if it passes) |
+| `show-trace …/trace.zip` | Open the **film** |
+| `npx playwright show-report` | Open the **scoreboard** (pass/fail). Not the trace |
+
+The smoke spec only asserts the form is **visible**. Empty Email/Password in the film is correct — there is no `.fill`. Password values may stay hidden even when a login spec fills them.

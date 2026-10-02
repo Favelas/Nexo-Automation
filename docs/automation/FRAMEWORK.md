@@ -498,7 +498,10 @@ Manual quality gate: `docs/PRODUCT_REQUIREMENTS.md`. Do not mark a feature “au
 
 - `expect(locator).toBeVisible()`, `toHaveURL`, `toHaveText`
 - Click the locator, not coordinates
-- Open trace: `npx playwright show-trace test-results/.../trace.zip`
+- Record a trace for one run: `npx playwright test e2e/smoke/login-form.spec.ts --trace on`
+- Open the film: `npx playwright show-trace test-results/smoke-login-form-login-form-is-visible-logged-out/trace.zip` (zip name follows spec + title + project)
+- `show-report` is the pass/fail HTML report, not the trace
+- Config default: `trace: 'on-first-retry'` + `retries` only on CI — laptop fails often have no zip
 - Fail on `test.only` in CI (`forbidOnly`)
 
 **Do not**
